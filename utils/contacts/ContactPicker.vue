@@ -15,7 +15,8 @@
         </template>
         <div class="">
             <div class="mb-3">
-                <DropdownSelect :options="contacts.items.map((ct) => ({ label: ct.name, value: ct.email }))"
+                <DropdownSelect
+                    :options="contactStore.contacts.items.map((ct) => ({ label: ct.name, value: ct.email }))"
                     v-model="contactStore.selected" multiple :maxShow="1" />
             </div>
             <table class="w-full">
