@@ -6,7 +6,6 @@
                     alt="Short logo" />
             </div>
             <div class="flex flex-col items-center gap-3 h-full">
-
                 <a :href="$modulesUrls.dashboard"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
                     :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.dashboard ?? '') }">
@@ -63,7 +62,7 @@
     <Transition name="side-bar-left">
         <div v-show="sideStore.show" class="w-[360px] pl-20 fixed z-[20] bg-white h-screen">
             <div class="h-full overflow-y-auto bg-white rounded-lg ">
-                <slot name="sidebar" />
+                <component :is="$route.meta.sidebar" />
             </div>
         </div>
     </Transition>

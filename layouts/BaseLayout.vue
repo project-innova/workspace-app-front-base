@@ -6,7 +6,7 @@
             :class="{ 'lg:w-[calc(100vw-360px)] lg:ml-[370px]': sideStore.show }">
             <LayoutHeader :auth-user="authStore.user!" />
             <div class="mt-3 h-[calc(100vh-90px)] overflow-y-auto">
-                <slot name="header" />
+                <component :is="$route.meta.header" :auth-user="authStore.user!" />
                 <router-view>
                     <template #default="{ Component, route }">
                         <keep-alive>

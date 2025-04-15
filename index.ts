@@ -15,7 +15,6 @@ import Toast from './utils/plugins/toast/index';
 export default {
     install(app: App, options: DgiwsFrontPlugin) {
         const pinia = createPinia();
-
         pinia.use(piniaPluginPersistedstate);
 
         app.use(pinia)
@@ -28,9 +27,11 @@ export default {
                 Authorization: `Bearer ${window.$userToken}`
             }
         }) as unknown as Socket<DefaultEventsMap, DefaultEventsMap>;
+
         window.$url = (path: string = '') => {
             return options.appUrl + path;
         }
+
         window.$modulesUrls = options.modulesUrls;
         app.component('AppButton', AppButton);
         app.component('TextField', TextField);

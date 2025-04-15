@@ -17,6 +17,7 @@ declare global {
     }
     const $useToast: typeof useToast
     const $socket: Socket
+    const $modulesUrls: DgiwsModules
     const $url: (path: string) => string
 
 }
@@ -30,6 +31,13 @@ declare module 'vue' {
         $appContants: typeof appContants,
         $useToast: typeof useToast
         $userToken: String
+        $router: any
+        $route: {
+            params: { [k: string]: any };
+            meta: { [k: string]: any };
+            name?: string;
+        }
+        $userTrouteoken: String
         $modulesUrls: DgiwsModules
         $url: (path: string) => string
     }
