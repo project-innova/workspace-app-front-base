@@ -1,5 +1,5 @@
 
-import type { AuthUser } from "../plugin/types";
+import type { AuthUser } from "../types";
 import { HTTP } from "../utils/http";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
