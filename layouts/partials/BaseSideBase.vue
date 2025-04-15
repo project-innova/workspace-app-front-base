@@ -9,50 +9,49 @@
 
                 <a :href="$modulesUrls.dashboard"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.dashboard) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.dashboard ?? '') }">
                     <HomeIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.drive"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.drive) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.drive ?? '') }">
                     <HardDriveIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.chat"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.chat) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.chat ?? '') }">
                     <MessageSquareIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.meet"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.meet) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.meet ?? '') }">
                     <VideoIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.team"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.team) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.team ?? '') }">
                     <UsersIcon class="size-6" />
                 </a>
                 <a :href="$modulesUrls.contact"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.contact) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.contact ?? '') }">
                     <ContactIcon class="size-6" />
                 </a>
                 <a :href="$modulesUrls.ai"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.ai) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.ai ?? '') }">
                     <BotIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.mail"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.mail) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.mail ?? '') }">
                     <MailIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.calendar"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.calendar) }">
+                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.calendar ?? '') }">
                     <CalendarIcon class="size-6" stroke-width="1.5" />
                 </a>
-
 
             </div>
         </div>
