@@ -1,11 +1,11 @@
 <template>
     <header class="grid grid-cols-3 w-full gap-2 p-2 bg-white rounded-lg">
         <div class="flex items-center gap-2">
-            <slot name="title" />
+            <component :is="$route.meta.title" />
         </div>
         <SpotLight />
         <div class="flex justify-end gap-3">
-            <slot name="actions" />
+            <component :is="$route.meta.actions" />
             <NotificationModal />
             <span class="">
                 <a v-if="authStore.user" href=""
