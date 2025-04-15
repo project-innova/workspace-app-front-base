@@ -1,0 +1,215 @@
+<template>
+    <div class="relative" :class="$attrs.class">
+        <label v-if="label" class="block text-sm font-bold"> {{ label }} </label>
+        <button class="app-dropdown-select-handle relative overflow-hidden !pr-10"
+            :class="{ '!h-6 !rounded-md': size == 'sm' }" :style="{ width: w }" @click="toggle" ref="buttonRef">
+            <div class="flex gap-1">
+                <template v-if="multiple">
+                    <span @click.stop="" v-if="chip">
+                        <slot v-for="(item) in selecteds.slice(0, (maxShow))" name="chip"
+                            :item="options?.find((d) => d[optionValue] == item)">
+                            <span @click.prevent=""
+                                class="bg-gray-400 group pointer-events-none flex items-center gap-1 text-white text-xs font-semibold px-1 py-1 rounded-md">{{
+                                    item[optionLabel]
+                                }} <span class="cursor-pointer p-1">
+                                    <XIcon class="size-3" />
+                                </span>
+                            </span>
+                        </slot>
+                    </span>
+                    <span>
+                        {{ selecteds.slice(0, (maxShow)).join(', ') }}
+                    </span>
+                </template>
+                <template v-else>
+                    <span> {{modelValue != null ? options?.find((d) => d[optionValue] == modelValue)[optionLabel]
+                        : ''}}</span>
+                </template>
+                <span v-if="selecteds.length > (maxShow)" class=" text-xs font-semibold px-2 py-1 rounded-md">+{{
+                    selecteds.length -
+                    maxShow }}</span>
+            </div>
+
+            <div class="w-10 flex-center h-full bg-gray-100 absolute top-0 right-0">
+                <span v-if="loading" class="app-loader-spiner bg-gray-400 !w-6"></span>
+                <ChevronDownIcon v-else class="w-5 h-5 text-gray-600 transition-all duration-300"
+                    :class="{ 'rotate-180': isOpen }" />
+            </div>
+        </button>
+    </div>
+
+    <Teleport to="body">
+        <Transition name="dropdown-trans">
+            <div class="app-dropdown-select-menu" ref="contextMenu" :style="menuProperties" v-if="isOpen"
+                :id="`dropdown-select-${_id}`">
+                <div v-if="filter" class="filter-container relative flex items-center p-2">
+                    <input type="text" class="border-0 outline-none bg-gray-100 p-2 w-full rounded-lg" @input="onFilter"
+                        ref="filterInput" />
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2" @click="clearFilter">
+                        <XIcon class="size-4" />
+                    </button>
+                </div>
+                <div class="items-container">
+                    <ul>
+                        <li v-for="(option, i) in _options" :key="option[optionValue]"
+                            @click="updateModelValue(option[optionValue])"
+                            class="cursor-pointer hover:bg-primary/5 hover:text-primary transition-all duration-300"
+                            :class="{
+                                'bg-primary/10 text-primary':
+                                    (multiple && modelValue.includes(option.value)) || modelValue == option[optionValue],
+                            }">
+                            <slot name="item" :option="option" :index="i" :active="(multiple && modelValue.includes(option.value)) || modelValue == option[optionValue]
+                                "><span
+                                    class="w-full h-10 text-nowrap px-3 flex items-center justify-between font-semibold relative">
+                                    {{ option[optionLabel] }}
+                                </span>
+                            </slot>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </Transition>
+    </Teleport>
+</template>
+<script setup lang="ts">
+import { ChevronDownIcon, XIcon } from 'lucide-vue-next'
+import { onMounted, ref, watch } from 'vue'
+interface SelectOptionValueColor {
+    textColor: string,
+    bgColor: string,
+    value: any
+}
+const props = withDefaults(
+    defineProps<{
+        label?: string
+        options: any[]
+        multiple?: boolean
+        filter?: boolean
+        api?: boolean
+        optionLabel?: string
+        optionValue?: string
+        w?: string
+        size?: 'sm' | 'md' | 'lg'
+        maxShow?: number
+        loading?: boolean
+        chip?: boolean
+        valueColors?: SelectOptionValueColor[]
+        withConfirmation?: boolean
+        modelValue: any | any[]
+    }>(),
+    {
+        multiple: false,
+        filter: false,
+        optionLabel: 'label',
+        optionValue: 'value',
+        loading: false,
+        maxShow: 3,
+    },
+)
+const emit = defineEmits(['update:modelValue', 'searching'])
+const _options = ref(props.options)
+const updateModelValue = (value: any) => {
+    if (props.multiple) {
+        if (props.modelValue.includes(value)) {
+            const val = props.modelValue.filter((item: any) => item != value)
+            emit(
+                'update:modelValue',
+                val,
+            )
+            selecteds.value = val
+        } else {
+            const val = [...props.modelValue, value]
+            selecteds.value = val
+            emit('update:modelValue', val)
+        }
+    } else {
+        emit('update:modelValue', value)
+        isOpen.value = false
+    }
+}
+const _id = ref(
+    Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
+)
+const isOpen = ref(false)
+const menuProperties = ref({
+    width: '200px',
+    top: '0px',
+    left: '0px',
+})
+
+const selecteds = ref([] as any[])
+
+
+const filterInput = ref()
+const onFilter = (e: Event) => {
+    const value = (e.target as HTMLInputElement).value
+    emit('searching', value)
+    if (!props.api) {
+        _options.value = props.options.filter((option) =>
+            option.label.toLowerCase().includes(value.toLowerCase()),
+        )
+    }
+
+}
+
+
+const clearFilter = () => {
+    _options.value = props.options
+    filterInput.value.value = ''
+}
+
+const buttonRef = ref()
+const contextMenu = ref()
+
+const closeMenu = () => {
+    const _ev = new CustomEvent('open-menu', {
+        detail: {
+            id: _id.value,
+            open: false,
+        },
+    })
+    document.dispatchEvent(_ev)
+}
+
+const toggle = (e: MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    closeMenu()
+    if (isOpen.value) {
+        isOpen.value = false
+    } else {
+        isOpen.value = true
+        const targetRect = buttonRef.value.getBoundingClientRect()
+        menuProperties.value.width = targetRect.width + 'px'
+        menuProperties.value.top = targetRect.bottom + 5 + 'px'
+        menuProperties.value.left = targetRect.left + 'px'
+    }
+}
+
+watch(() => props.options, (newValue) => {
+    _options.value = newValue
+})
+onMounted(() => {
+    document.addEventListener('open-menu', (e: any) => {
+        if (e.detail.id != _id.value) {
+            isOpen.value = false
+        }
+    })
+    document.onscroll = () => {
+        isOpen.value = false
+    }
+
+    document.addEventListener('click', (e) => {
+        const _me = document.getElementById(`dropdown-select-${_id.value}`)
+        if (e.target && _me && !_me.contains(e.target as HTMLElement)) {
+            isOpen.value = false
+        }
+    })
+
+    if (props.modelValue) {
+        if (props.multiple) {
+            selecteds.value = props.modelValue
+        }
+    }
+})
+</script>

@@ -1,0 +1,40 @@
+@use "./variables.scss" as *;
+@use "./buttons.scss" as *;
+@use "./cards.scss" as *;
+@use "./forms.scss" as *;
+@use "./inputs.scss" as *;
+@use "./plugins.scss" as *;
+@import url('https://fonts.bunny.net/css?family=nunito:400,500,600,700,800,900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#app {
+    background-color: var(--bg-color);
+}
+
+.side-bar-left-enter-active {
+    transition: all 0.2s ease-out;
+}
+
+.side-bar-left-leave-active {
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.side-bar-left-enter-from,
+.side-bar-left-leave-to {
+    transform: translateX(-20px);
+    opacity: 0;
+    transition: all 0.2s ease-out;
+    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}

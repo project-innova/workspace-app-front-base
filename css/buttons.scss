@@ -1,0 +1,114 @@
+.app-icon-btn {
+    @apply p-2 w-10 h-10 flex justify-center items-center rounded-lg cursor-pointer transition duration-300 ease-in-out;
+
+    &.small {
+        @apply p-1 w-8 h-8;
+    }
+
+    &:hover {
+        background-color: var(--bg-color);
+    }
+
+    &.active {
+        background-color: var(--bg-color);
+        color: var(--color-primary);
+    }
+
+    &.filled {
+        background-color: var(--bg-color);
+    }
+
+    &[disabled] {
+        cursor: not-allowed;
+        opacity: 0.3;
+
+        &:hover {
+            background-color: var(--bg-color);
+        }
+    }
+}
+
+.app-text-field {
+    @apply outline-1 outline-primary h-12 rounded-lg bg-gray-100 flex gap-2 items-center w-full p-3 focus:ring-primary;
+}
+
+.app-btn {
+    @apply p-2 gap-2 px-4 font-semibold transition-all duration-300 ease-in-out flex justify-center items-center rounded-lg cursor-pointer;
+    background-color: var(--bg-color);
+
+    &:hover {
+        background-color: var(--bg-color-hover);
+    }
+
+    &.small {
+        @apply p-1 h-8 text-sm px-2;
+
+        &.icon {
+            @apply p-1 h-6 w-6 text-sm px-1;
+        }
+    }
+
+    &.large {
+        @apply p-2 h-10 text-sm px-2;
+
+        &.icon {
+            @apply p-2 h-10 w-10 text-sm px-2;
+        }
+    }
+
+    &.icon {
+        @apply p-2 h-8 w-8 text-sm px-2;
+    }
+
+    &.primary {
+        @apply bg-primary/0 text-primary hover:bg-primary/20;
+
+        &.filled {
+            @apply bg-primary text-white hover:bg-primary-hover;
+        }
+    }
+
+    &.secondary {
+        @apply bg-gray-700/10 text-gray-700 hover:bg-gray-700/10;
+
+        &.filled {
+            @apply bg-gray-500 text-white hover:bg-gray-700;
+        }
+    }
+
+    &.success {
+        @apply bg-green-500/10 text-green-500 hover:bg-green-500/20;
+
+        &.filled {
+            @apply bg-green-500 text-white hover:bg-green-400;
+        }
+    }
+
+    &.danger {
+        @apply bg-red-500/10 text-red-500 hover:bg-red-500/20;
+
+        &.filled {
+            @apply bg-red-500 text-white hover:bg-red-400;
+        }
+    }
+
+    // &.active {
+    //     background-color: var(--bg-color);
+    //     color: var(--color-primary);
+    // }
+
+    &[disabled] {
+        cursor: not-allowed;
+        opacity: 0.3;
+
+        &:hover {
+            background-color: var(--bg-color);
+        }
+    }
+}
+
+.btn-search {
+    background-color: var(--bg-color);
+    @apply flex justify-between gap-2 items-center p-2 rounded-lg text-gray-400;
+
+}
