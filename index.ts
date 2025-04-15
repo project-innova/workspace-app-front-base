@@ -6,7 +6,7 @@ import { io } from 'socket.io-client';
 import type { DefaultEventsMap, Socket } from 'socket.io';
 import AppButton from './components/forms/AppButton.vue';
 import TextField from './components/forms/TextField.vue';
-import type { DgiwsFrontPlugin } from './plugin/types';
+import type { DgiwsFrontPlugin } from './types';
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import VueAwesomePaginate from "vue-awesome-paginate";
@@ -31,6 +31,7 @@ export default {
         window.$url = (path: string = '') => {
             return options.appUrl + path;
         }
+        window.$modulesUrls = options.modulesUrls;
         app.component('AppButton', AppButton);
         app.component('TextField', TextField);
         app.config.globalProperties.$userToken = window.$userToken;

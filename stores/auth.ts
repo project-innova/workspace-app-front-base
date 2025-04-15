@@ -22,6 +22,7 @@ export const useAuthStore = defineStore('authStore', () => {
         })
     }
     const loadUser = async () => {
+        console.log('window.$modulesUrls', window.$modulesUrls);
         user.value = (await HTTP.get(window.$modulesUrls.ssoServerUserInfoUrl)).data.user;
     }
 
