@@ -17,8 +17,9 @@
                             </span>
                         </slot>
                     </span>
-                    <span>
-                        {{ selecteds.slice(0, (maxShow)).join(', ') }}
+                    <span v-else>
+                        {{selecteds.slice(0, (maxShow)).map((item) => options?.find((d) => d[optionValue] ==
+                            item)[optionLabel]).join(', ')}}
                     </span>
                 </template>
                 <template v-else>
