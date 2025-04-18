@@ -15,5 +15,3 @@ const model = defineModel();
 const id = ref(Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15));
 
 </script>
-
-<style scoped lang="scss"></style>
