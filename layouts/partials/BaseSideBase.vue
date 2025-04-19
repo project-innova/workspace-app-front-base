@@ -60,8 +60,8 @@
     </div>
 
     <Transition name="side-bar-left">
-        <div v-show="sideStore.show" class="w-[360px] pl-16 fixed z-[20] bg-white h-screen">
-            <div class="h-full overflow-y-auto bg-white rounded-lg ">
+        <div v-show="sideStore.show" class="w-[360px] pl-16 fixed z-[20] h-screen py-2">
+            <div class="h-full overflow-y-auto bg-white rounded-lg border">
                 <component :is="$route.meta.sidebar" />
             </div>
         </div>
