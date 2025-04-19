@@ -27,6 +27,14 @@ HTTP.interceptors.response.use(
         return response;
     },
     (error) => {
+        if (error.response.data.message) {
+            $useToast({
+                title: 'Erreur',
+                type: 'error',
+                message: error.response.data.message
+            });
+        }
+
         return Promise.reject(error);
     }
 );
