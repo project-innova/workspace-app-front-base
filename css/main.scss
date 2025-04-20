@@ -9,9 +9,10 @@
 @tailwind components;
 @tailwind utilities;
 
-#app {
+body {
     background-color: var(--bg-color);
 }
+
 
 .side-bar-left-enter-active {
     transition: all 0.2s ease-out;
