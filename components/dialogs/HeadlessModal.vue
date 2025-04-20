@@ -1,7 +1,7 @@
 <template>
     <Transition name="fade">
         <Teleport to="body">
-            <div class="fixed inset-0 bg-black opacity-40 w-screen h-screen z-40" v-if="show == true"
+            <div class="fixed inset-0 bg-black opacity-40 w-screen h-screen z-50" v-if="show == true"
                 @click="emit('update:show', false)">
             </div>
         </Teleport>

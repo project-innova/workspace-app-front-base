@@ -50,9 +50,9 @@ onMounted(async () => {
 </script>
 
 <template>
-    <button class="relative app-icon-btn filled" @click="toogleMenu">
+    <button class="relative app-icon-btn filled rounded-lg" @click="toogleMenu">
         <BellIcon class="pointer-events-none size-5" stroke-width="1.5" />
-        <span style="top: -10%; right: -16%"
+        <span v-show="notificationStore.unreadNotifications.length > 0" style="top: -10%; right: -16%"
             class="absolute inline-flex w-5 h-5 text-xs font-bold text-white rounded-full pointer-events-none flex-center bg-primary">
             {{ notificationStore.unreadNotifications.length }}
         </span>
@@ -64,7 +64,7 @@ onMounted(async () => {
                 <div class="flex items-center gap-2">
                     <span class="text-xl font-bold text-gray-600">Centre de notifications</span>
                 </div>
-                <button class="app-btn small">
+                <button class="app-btn small rounded-lg">
                     <TrashIcon class="text-gray-500 size-4" />
                     <span>Supprimer tout</span>
                 </button>

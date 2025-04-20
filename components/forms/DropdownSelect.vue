@@ -2,8 +2,9 @@
     <div class="relative" :class="$attrs.class">
         <label v-if="label" class="block text-sm font-bold"> {{ label }} </label>
         <button class="app-dropdown-select-handle relative overflow-hidden !pr-10"
-            :class="{ '!h-6 !rounded-md': size == 'sm' }" :style="{ width: w }" @click="toggle" ref="buttonRef">
-            <div class="flex gap-1">
+            :class="[{ '!h-6 !rounded-md': size == 'sm' }, btnClass]" :style="{ width: w }" @click="toggle"
+            ref="buttonRef">
+            <div class="flex gap-1 line-clamp-1">
                 <template v-if="multiple">
                     <span @click.stop="" v-if="chip">
                         <slot v-for="(item) in selecteds.slice(0, (maxShow))" name="chip"
@@ -17,13 +18,14 @@
                             </span>
                         </slot>
                     </span>
-                    <span v-else>
+                    <span v-else class="line-clamp-1">
                         {{selecteds.slice(0, (maxShow)).map((item) => options?.find((d) => d[optionValue] ==
                             item)[optionLabel]).join(', ')}}
                     </span>
                 </template>
                 <template v-else>
-                    <span> {{modelValue != null ? options?.find((d) => d[optionValue] == modelValue)[optionLabel]
+                    <span class="line-clamp-1"> {{modelValue != null ? options?.find((d) => d[optionValue] ==
+                        modelValue)[optionLabel]
                         : ''}}</span>
                 </template>
                 <span v-if="selecteds.length > (maxShow)" class=" text-xs font-semibold px-2 py-1 rounded-md">+{{
@@ -31,7 +33,7 @@
                     maxShow }}</span>
             </div>
 
-            <div class="w-10 flex-center h-full bg-gray-100 absolute top-0 right-0">
+            <div class="w-10 flex-center h-full  absolute top-0 right-0">
                 <span v-if="loading" class="app-loader-spiner bg-gray-400 !w-6"></span>
                 <ChevronDownIcon v-else class="w-5 h-5 text-gray-600 transition-all duration-300"
                     :class="{ 'rotate-180': isOpen }" />
@@ -41,24 +43,25 @@
 
     <Teleport to="body">
         <Transition name="dropdown-trans">
-            <div class="app-dropdown-select-menu" ref="contextMenu" :style="menuProperties" v-if="isOpen"
-                :id="`dropdown-select-${_id}`">
-                <div v-if="filter" class="filter-container relative flex items-center p-2">
+            <div class="app-dropdown-select-menu" :class="dropdownClass" ref="contextMenu" :style="menuProperties"
+                v-if="isOpen" :id="`dropdown-select-${_id}`">
+                <div v-if="filter" class="filter-container relative flex items-center p-2"
+                    :class="filterContainerClass">
                     <input type="text" class="border-0 outline-none bg-gray-100 p-2 w-full rounded-lg" @input="onFilter"
                         ref="filterInput" />
                     <button class="absolute right-4 top-1/2 -translate-y-1/2" @click="clearFilter">
                         <XIcon class="size-4" />
                     </button>
                 </div>
-                <div class="items-container">
+                <div class="items-container" :class="itemsContainerClass">
                     <ul>
                         <li v-for="(option, i) in _options" :key="option[optionValue]"
                             @click="updateModelValue(option[optionValue])"
                             class="cursor-pointer hover:bg-primary/5 hover:text-primary transition-all duration-300"
-                            :class="{
+                            :class="[{
                                 'bg-primary/10 text-primary':
                                     (multiple && modelValue.includes(option.value)) || modelValue == option[optionValue],
-                            }">
+                            }, itemClass]">
                             <slot name="item" :option="option" :index="i" :active="(multiple && modelValue.includes(option.value)) || modelValue == option[optionValue]
                                 "><span
                                     class="w-full h-10 text-nowrap px-3 flex items-center justify-between font-semibold relative">
@@ -89,6 +92,11 @@ const props = withDefaults(
         api?: boolean
         optionLabel?: string
         optionValue?: string
+        btnClass?: string,
+        itemClass?: string,
+        dropdownClass?: string,
+        itemsContainerClass?: string,
+        filterContainerClass?: string,
         w?: string
         size?: 'sm' | 'md' | 'lg'
         maxShow?: number
@@ -134,6 +142,7 @@ const _id = ref(
 const isOpen = ref(false)
 const menuProperties = ref({
     width: '200px',
+    minWidth: '200px',
     top: '0px',
     left: '0px',
 })
@@ -181,7 +190,7 @@ const toggle = (e: MouseEvent) => {
     } else {
         isOpen.value = true
         const targetRect = buttonRef.value.getBoundingClientRect()
-        menuProperties.value.width = targetRect.width + 'px'
+        menuProperties.value.minWidth = targetRect.width + 'px'
         menuProperties.value.top = targetRect.bottom + 5 + 'px'
         menuProperties.value.left = targetRect.left + 'px'
     }
