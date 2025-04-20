@@ -1,5 +1,5 @@
 <template>
-    <div class="flex bg-color flex-col items-center justify-between w-16 h-screen fixed left-0 z-[21] pb-3">
+    <div class="flex bg-color flex-col items-center justify-between w-16 h-screen fixed left-0 z-[49] pb-3">
         <div class="mb-2">
             <div class="overflow-hidden w-[50px] h-[50px] inline-flex items-center justify-center">
                 <img class="object-cover rounded-xl" :src="$url('/assets/logos/DGI-WORKSPACE-logo-short.png')"
@@ -65,7 +65,7 @@
     </div>
 
     <Transition name="side-bar-left">
-        <div v-show="sideStore.show" class="w-[360px] pl-16 pr-2 fixed z-[20] h-screen py-2 bg-gray-100">
+        <div v-show="sideStore.show" class="w-[360px] pl-16 pr-2 fixed z-[49] h-screen py-2 bg-gray-100">
             <div class="h-full overflow-y-auto bg-white rounded-lg border">
                 <component :is="$route.meta.sidebar" />
             </div>
