@@ -6,6 +6,11 @@
                     alt="Short logo" />
             </div>
             <div class="flex flex-col items-center gap-3 h-full">
+                <button @click="sideStore.toggleShow"
+                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300">
+                    <ChevronLeftIcon class="size-6 transition-transform" :class="{ 'rotate-180': sideStore.show }"
+                        stroke-width="1.5" />
+                </button>
                 <a :href="$modulesUrls.dashboard"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300"
                     :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.dashboard ?? '') }">
@@ -77,7 +82,7 @@ import ConfirmationModal from '../../components/dialogs/ConfirmationModal.vue'
 
 import { useAuthStore } from "../../stores/auth";
 import { useSideBar } from '../../stores/sidebar';
-import { BotIcon, CalendarIcon, ContactIcon, HardDriveIcon, HomeIcon, LogOutIcon, MailIcon, MessageSquareIcon, UsersIcon, VideoIcon } from 'lucide-vue-next'
+import { BotIcon, CalendarIcon, ChevronLeftIcon, ContactIcon, HardDriveIcon, HomeIcon, LogOutIcon, MailIcon, MessageSquareIcon, UsersIcon, VideoIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 const authStore = useAuthStore()
 const sideStore = useSideBar()
