@@ -32,13 +32,17 @@
 </template>
 <script setup lang="ts">
 
-defineProps<{
+withDefaults(defineProps<{
     show: boolean,
-    size: 'sm' | 'md' | 'lg' | 'wrap',
-    position: 'top' | 'middle',
+    size?: 'sm' | 'md' | 'lg' | 'wrap',
+    position?: 'top' | 'middle',
     contentClass?: string,
     containerClass?: string,
-}>()
+}>(), {
+    size: 'md',
+    position: 'middle',
+    contentClass: '',
+})
 
 const emit = defineEmits(['close', 'update:show'])
 </script>
