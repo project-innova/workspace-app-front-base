@@ -65,14 +65,14 @@
     </div>
 
     <Transition name="side-bar-left">
-        <div v-show="sideStore.show" class="w-[360px] pl-16 pr-2 fixed z-[49] h-screen py-2 bg-gray-100">
+        <div v-show="sideStore.show" class="w-[360px] pl-16 pr-2 fixed z-[48] h-screen py-2 bg-gray-100">
             <div class="h-full overflow-y-auto bg-white rounded-lg border">
                 <component :is="$route.meta.sidebar" />
             </div>
         </div>
     </Transition>
     <Transition name="fade">
-        <div v-if="sideStore.show" class="w-screen h-screen bg-black/50 fixed lg:hidden"></div>
+        <div v-if="sideStore.show" class="w-screen h-screen bg-black/50 fixed lg:hidden z-[47]"></div>
     </Transition>
     <ConfirmationModal :show="showLogoutModal" title="Déconnexion" description="Souhaitez vous vous déconnecter ?"
         @cancel="onLogoutResponse(false)" @confirm="onLogoutResponse(true)" />
