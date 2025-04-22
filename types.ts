@@ -70,8 +70,8 @@ interface PaginatedCollection<T> {
         perpage: number,
         total_page: number,
         total_items: number,
-        from: number,
-        to: number,
+        from: number|null,
+        to: number|null,
         next_page: number | null,
         prev_page: number | null
     }
