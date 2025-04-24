@@ -1,5 +1,5 @@
 <template>
-    <div class="app-table app-card">
+    <div class="app-table app-card max-h-full overflow-y-auto">
         <div v-if="$slots.header" class="mb-5">
             <slot name="header"></slot>
         </div>
@@ -7,17 +7,20 @@
             <table class="w-full">
                 <thead>
                     <tr class="">
-                        <th v-if="multiple" class="py-3 px-2">
+                        <th v-if="multiple" class="py-3 px-2 sticky top-0 z-3">
                             <input type="checkbox" :checked="selectedItems.length === dataCollection.length"
                                 @click="selectedAll" />
                         </th>
-                        <th v-for="column in columns" :key="column.key" class="py-3 px-2">
+                        <th v-for="column in columns" :key="column.key" class="py-3 px-2 sticky top-0 z-3">
                             <span class="text-sm text-gray-600 font-extrabold flex text-nowrap" :class="{
                                 'justify-start': column.align === 'left',
                                 'justify-end': column.align === 'right',
                                 'justify-center': column.align === 'center',
                             }">
-                                {{ column.label }}</span>
+                                <slot :name="`head-${column.key}`">
+                                    <span>{{ column.label }}</span>
+                                </slot>
+                            </span>
                         </th>
                     </tr>
                 </thead>
@@ -30,7 +33,7 @@
                         </tr>
                     </template>
                     <template v-else v-for="(item, index) in dataCollection">
-                        <tr class="hover:bg-gray-100 rounded-md transition-all duration-300">
+                        <tr class="hover:bg-gray-100 rounded-md transition-all duration-300 select-none cursor-pointer" @click="$emit('selected',{item, index})" @dblclick="$emit('open',{item, index})">
                             <td v-if="multiple" class="px-2">
                                 <!-- <input type="checkbox" :value="item[primaryKay]"
                               :checked="selected.includes(item[primaryKay])"
@@ -92,7 +95,7 @@ const props = withDefaults(
     },
 )
 
-const emit = defineEmits(['sort', 'update:selected'])
+const emit = defineEmits(['sort', 'update:selected','selected','open'])
 
 const selectedItems = ref<any[]>(props.selected ?? [])
 

@@ -2,7 +2,7 @@
     <Teleport to="body">
         <Transition name="slide-fade">
             <div class="bg-white inset-0 rounded-xl overflow-hidden shadow-xl z-50 app-context-menu w-[250px] h-fit absolute"
-                ref="contextMenu" :class="[$attrs.class]" v-show="show">
+                ref="contextMenu" :class="[$attrs.class]" v-show="_show">
                 <slot />
             </div>
         </Transition>
@@ -20,8 +20,13 @@ const props = withDefaults(defineProps<{
 });
 
 const contextMenu = ref<HTMLDivElement | null>(null);
-const show = ref(false);
-
+const _show = ref(false);
+const show = () => {
+    _show.value = true;
+}
+const hide = () => {
+    _show.value = false;
+}
 const toggle = (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
@@ -51,7 +56,11 @@ const toggle = (event: MouseEvent) => {
 }
 
 defineExpose({
-    toggle
+    toggle,
+    show,
+    hide,
+    contextMenu,
+    _show,
 })
 onMounted(() => {
     document.addEventListener('click', () => {

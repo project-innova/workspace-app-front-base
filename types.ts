@@ -81,6 +81,7 @@ interface TableColumn {
     label: string;
     key: string;
     type?: string;
+    colspan?: number;
     align?: 'left' | 'center' | 'right';
     sortable?: boolean;
 }
