@@ -44,7 +44,7 @@
     <Teleport to="body">
         <Transition name="dropdown-trans">
             <div class="app-dropdown-select-menu" :class="dropdownClass" ref="contextMenu" :style="menuProperties"
-                v-if="isOpen" :id="`dropdown-select-${_id}`">
+                v-show="isOpen" :id="`dropdown-select-${_id}`">
                 <div v-if="filter" class="filter-container relative flex items-center p-2"
                     :class="filterContainerClass">
                     <input type="text" class="border-0 outline-none bg-gray-100 p-2 w-full rounded-lg" @input="onFilter"
@@ -145,6 +145,7 @@ const menuProperties = ref({
     minWidth: '200px',
     top: '0px',
     left: '0px',
+    opacity: '0',
 })
 
 const selecteds = ref([] as any[])
@@ -181,6 +182,10 @@ const closeMenu = () => {
     document.dispatchEvent(_ev)
 }
 
+const show = () => {
+    isOpen.value = true;
+    setupPosition(buttonRef.value!);
+}
 const toggle = (e: MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -188,17 +193,33 @@ const toggle = (e: MouseEvent) => {
     if (isOpen.value) {
         isOpen.value = false
     } else {
-        isOpen.value = true
-        const targetRect = buttonRef.value.getBoundingClientRect()
-        menuProperties.value.minWidth = targetRect.width + 'px'
-        menuProperties.value.top = targetRect.bottom + 5 + 'px'
-        menuProperties.value.left = targetRect.left + 'px'
+        show();
     }
 }
 
 watch(() => props.options, (newValue) => {
     _options.value = newValue
 })
+const height = ref(0);
+const width = ref(0);
+const onResize = () => {
+    height.value = contextMenu.value!.offsetHeight;
+    width.value = contextMenu.value!.offsetWidth;
+}
+const hide = () => {
+
+}
+const setupPosition = (target: HTMLElement) => {
+    const targetRect = target.getBoundingClientRect();
+    menuProperties.value.width = targetRect.width + 'px';
+    menuProperties.value.left = targetRect.left + 'px';
+    if (window.innerHeight < targetRect.bottom + height.value) {
+        menuProperties.value.top = `${window.innerHeight - height.value}px`;
+    }
+    else {
+        menuProperties.value.top = `${targetRect.bottom}px`;
+    }
+}
 onMounted(() => {
     document.addEventListener('open-menu', (e: any) => {
         if (e.detail.id != _id.value) {
@@ -215,7 +236,14 @@ onMounted(() => {
             isOpen.value = false
         }
     })
-
+    contextMenu.value!.style.display = 'block';
+    setTimeout(() => {
+        height.value = contextMenu.value!.offsetHeight;
+        width.value = contextMenu.value!.offsetWidth;
+        contextMenu.value!.addEventListener('resize', onResize);
+        contextMenu.value!.style.display = 'none';
+        menuProperties.value!.opacity = '1';
+    }, 100);
     if (props.modelValue) {
         if (props.multiple) {
             selecteds.value = props.modelValue

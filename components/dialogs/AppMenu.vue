@@ -7,7 +7,7 @@
     <Teleport to="body">
         <Transition name="dropdown-trans">
             <div class="app-dropdown-select-menu p-1 " ref="contextMenu"
-                :style="[menuProperties, 'width:' + props.wd + 'px']" v-if="isOpen" :id="`dropdown-select-${_id}`">
+                :style="[menuProperties, 'width:' + props.wd + 'px']" v-show="isOpen" :id="`dropdown-select-${_id}`">
                 <ul>
                     <li v-for="(menu) in menus">
                         <button @click="() => { menu.action(menu.data); isOpen = false }" class="w-full">
@@ -49,6 +49,7 @@ const props = withDefaults(
 )
 const isOpen = ref(false)
 const menuProperties = ref({
+    opacity: '0',
     top: '0px',
     left: '0px',
 })
@@ -57,7 +58,10 @@ const _id = ref(
 )
 const buttonRef = ref()
 const contextMenu = ref()
-
+const show = () => {
+    isOpen.value = true;
+    setupPosition(buttonRef.value!);
+}
 const closeMenu = () => {
     const _ev = new CustomEvent('open-menu', {
         detail: {
@@ -72,17 +76,54 @@ const toggle = (e: MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
     closeMenu()
+    // console.log('',);
     if (isOpen.value) {
         isOpen.value = false
     } else {
-        isOpen.value = true
-        const targetRect = buttonRef.value.getBoundingClientRect()
-        menuProperties.value.top = targetRect.bottom + 5 + 'px'
-        menuProperties.value.left = (props.position == 'right' ? (targetRect.left - props.wd + targetRect.width) : targetRect.left) + 'px'
+        show()
+    }
+}
+
+const height = ref(0);
+const width = ref(0);
+const onResize = () => {
+    height.value = contextMenu.value!.offsetHeight;
+    width.value = contextMenu.value!.offsetWidth;
+}
+const hide = () => {
+
+}
+const setupPosition = (target: HTMLElement) => {
+    const targetRect = target.getBoundingClientRect();
+    if (window.innerWidth < targetRect.right + width.value) {
+        menuProperties.value.left = `${targetRect.right - width.value}px`;
+    }
+    else {
+        menuProperties.value.left = `${targetRect.left}px`;
+    }
+    if (window.innerHeight < (targetRect.bottom + height.value)-10) {
+        if ((targetRect.top)>height.value) {
+            menuProperties.value.top = `${targetRect.top - height.value}px`;
+        }else{
+            // window.innerHeight/2
+            // menuProperties.value.top = `${(targetRect.top+100) - height.value}px`
+            menuProperties.value.top = `${ window.innerHeight/4}px`
+        }
+    }
+    else {
+        menuProperties.value.top = `${targetRect.bottom}px`;
     }
 }
 
 onMounted(() => {
+    contextMenu.value!.style.display = 'block';
+    setTimeout(() => {
+        height.value = contextMenu.value!.offsetHeight;
+        width.value = contextMenu.value!.offsetWidth;
+        contextMenu.value!.addEventListener('resize', onResize);
+        contextMenu.value!.style.display = 'none';
+        menuProperties.value!.opacity = '1';
+    }, 100);
     document.addEventListener('open-menu', (e: any) => {
         if (e.detail.id != _id.value) {
             isOpen.value = false
@@ -98,5 +139,6 @@ onMounted(() => {
             isOpen.value = false
         }
     })
+
 })
 </script>
