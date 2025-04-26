@@ -52,6 +52,7 @@ interface TableColumn {
     label: string;
     key: string;
     type?: string;
+    width?: number;
     align?: 'left' | 'center' | 'right';
     sortable?: boolean;
 }
