@@ -12,8 +12,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 
-
-const props = withDefaults(defineProps<{
+withDefaults(defineProps<{
     position?: 'topLeft' | 'topRight' | 'bottomLeft' | 'bottomRight';
 }>(), {
     position: 'bottomLeft'
@@ -21,8 +20,9 @@ const props = withDefaults(defineProps<{
 
 const contextMenu = ref<HTMLDivElement | null>(null);
 const _show = ref(false);
-const show = () => {
+const show = (taget:HTMLElement) => {
     _show.value = true;
+    setupPosition(taget);
 }
 const hide = () => {
     _show.value = false;
@@ -31,27 +31,23 @@ const toggle = (event: MouseEvent) => {
     event.preventDefault();
     event.stopPropagation();
     if (!contextMenu.value || !(contextMenu.value instanceof HTMLElement) || !event.target) return;
-    if (contextMenu.value.style.display === 'block') {
-        contextMenu.value.style.display = 'none';
-    } else {
-        contextMenu.value.style.display = 'block';
-        if (contextMenu.value.style.left) return;
-        const target = event.target as HTMLElement;
-        const targetRect = target.getBoundingClientRect();
-        const contextMenuRect = contextMenu.value.getBoundingClientRect();
-        if (props.position === 'topLeft') {
-            contextMenu.value.style.top = targetRect.top + targetRect.height + 'px';
-            contextMenu.value.style.left = targetRect.left + 'px';
-        } else if (props.position === 'topRight') {
-            contextMenu.value.style.top = targetRect.top + targetRect.height + 'px';
-            contextMenu.value.style.left = targetRect.right - contextMenuRect.width + 'px';
-        } else if (props.position === 'bottomLeft') {
-            contextMenu.value.style.top = targetRect.bottom + 'px';
-            contextMenu.value.style.left = targetRect.left + 'px';
-        } else if (props.position === 'bottomRight') {
-            contextMenu.value.style.top = targetRect.bottom + 'px';
-            contextMenu.value.style.left = targetRect.right - contextMenuRect.width + 'px';
-        }
+    _show.value = true;
+    setupPosition(event.target as HTMLElement);
+
+}
+const setupPosition = (target: HTMLElement) => {
+    const targetRect = target.getBoundingClientRect();
+    if (window.innerWidth < targetRect.right + width.value) {
+        contextMenu.value!.style.left = `${targetRect.right-width.value}px`;
+    }
+    else {
+        contextMenu.value!.style.left = `${targetRect.right}px`;
+    }
+    if (window.innerHeight < targetRect.bottom + height.value) {
+        contextMenu.value!.style.top = `${window.innerHeight-height.value}px`;
+    }
+    else {
+        contextMenu.value!.style.top = `${targetRect.bottom}px`;
     }
 }
 
@@ -62,10 +58,26 @@ defineExpose({
     contextMenu,
     _show,
 })
+const height = ref(0);
+const width = ref(0);
+const onResize = () => {
+    height.value = contextMenu.value!.offsetHeight;
+    width.value = contextMenu.value!.offsetWidth;
+}
 onMounted(() => {
-    document.addEventListener('click', () => {
-        if (contextMenu.value) {
-            contextMenu.value.style.display = 'none';
+    contextMenu.value!.style.opacity = '0';
+    contextMenu.value!.style.display = 'block';
+    height.value = contextMenu.value!.offsetHeight;
+    width.value = contextMenu.value!.offsetWidth;
+    setTimeout(() => {
+        contextMenu.value!.style.opacity = '1';
+        contextMenu.value!.style.display = 'none';
+    }, 100);
+    contextMenu.value!.addEventListener('resize', onResize);
+    document.addEventListener('click', (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        if (!contextMenu.value?.contains(target)) {
+            hide();
         }
     })
 })

@@ -35,10 +35,10 @@
                             <FileIcon class="text-gray-400 size-6" />
                             <span class="text-sm font-bold text-gray-500">{{
                                 item.name
-                            }}</span>
+                                }}</span>
                             <span class="text-sm text-gray-400">{{
                                 item.date
-                            }}</span>
+                                }}</span>
                         </li>
                     </ul>
                 </div>
@@ -50,10 +50,10 @@
                             <FolderIcon class="text-gray-400 size-6" />
                             <span class="text-sm font-bold text-gray-500">{{
                                 item.name
-                            }}</span>
+                                }}</span>
                             <span class="text-sm text-gray-400">{{
                                 item.date
-                            }}</span>
+                                }}</span>
                         </li>
                     </ul>
                 </div>
@@ -65,10 +65,10 @@
                             <UserIcon class="text-gray-400 size-6" />
                             <span class="text-sm font-bold text-gray-500">{{
                                 item.name
-                            }}</span>
+                                }}</span>
                             <span class="text-sm text-gray-400">{{
                                 item.matricule
-                            }}</span>
+                                }}</span>
                         </li>
                     </ul>
                 </div>
@@ -79,8 +79,19 @@
     </HeadlessModal>
 </template>
 <script setup lang="ts">
+import { onMounted } from "vue";
 import HeadlessModal from "../../components/dialogs/HeadlessModal.vue";
 import { useSpotLightStore } from "./store";
 import { FileIcon, FolderIcon, SearchIcon, UserIcon, XIcon } from "lucide-vue-next";
 const spotLightStore = useSpotLightStore();
+
+onMounted(() => {
+    document.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault(); // Empêche le comportement par défaut
+            spotLightStore.show = true;
+        }
+    })
+
+})
 </script>
