@@ -35,7 +35,7 @@ export default {
         window.$modulesUrls = options.modulesUrls;
         app.component('AppButton', AppButton);
         app.component('TextField', TextField);
-        app.config.globalProperties.$userToken = window.$userToken;
+        app.config.globalProperties.$userToken = window.$userToken??'';
         app.config.globalProperties.$url = (path: string = '') => {
             return options.appUrl + path;
         };
