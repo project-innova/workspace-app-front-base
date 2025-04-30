@@ -27,7 +27,7 @@ HTTP.interceptors.response.use(
         return response;
     },
     (error) => {
-        if (error.response.data.message) {
+        if (error.response && error.response.data.message) {
             $useToast({
                 title: 'Erreur',
                 type: 'error',

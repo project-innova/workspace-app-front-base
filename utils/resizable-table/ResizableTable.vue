@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg border max-h-full overflow-y-auto">
+    <div class="bg-white rounded-lg border max-h-full overflow-y-auto" ref="tableContainer">
         <div class="">
             <div v-if="$slots.header" class="mb-5">
                 <slot name="header"></slot>
@@ -7,7 +7,8 @@
         </div>
         <table ref="tableHead" class="table-fixed w-full sticky top-0 bg-white z-10">
             <th v-for="(column, col_index) in columns" :key="column.key" class="sticky top-0 z-3 border-b bg-white"
-                :data-col-id="column.key" :class="thClass" :style="`width:${tableStore.getColumnSize(id,column.key,column.width??150)}px`">
+                :data-col-id="column.key" :class="thClass"
+                :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
                 <div class="relative py-2 px-2 group">
                     <span class="text-sm text-gray-600 font-extrabold flex text-nowrap overflow-hidden items-center"
                         :class="{
@@ -19,21 +20,15 @@
                             <span class=" line-clamp-1">{{ column.label }}</span>
                         </slot>
                     </span>
-                    <span class="h-full opacity-0 group-hover:opacity-100 right-0 top-0 border-l absolute cursor-ew-resize select-none"
+                    <span
+                        class="h-full opacity-0 group-hover:opacity-100 right-0 top-0 border-l absolute cursor-ew-resize select-none"
                         v-if="col_index + 1 != columns.length" :col-resizer="col_index"
                         :data-col-id="column.key"></span>
                 </div>
             </th>
         </table>
         <table class="table-fixed w-full">
-            <template v-if="loading">
-                <tr v-for="i in 10" :key="i">
-                    <td v-for="column in columns" :key="column.key" :data-col-id="column.key" class="py-1" :style="`width:${tableStore.getColumnSize(id,column.key,column.width??150)}px`">
-                        <TextPlacholder width="100%" />
-                    </td>
-                </tr>
-            </template>
-            <template v-else v-for="(item, index) in dataCollection">
+            <template v-for="(item, index) in dataCollection">
                 <tr draggable="true" :id="`table-data-item-${item.id}`"
                     class="hover:bg-gray-100 transition-all duration-300 select-none cursor-pointer" :class="trClass"
                     @click="$emit('selected', { item, index })" @dblclick="$emit('open', { item, index })"
@@ -47,7 +42,8 @@
                               :checked="selected.includes(item[primaryKay])"
                               @change="emit('update:selected', selected)" /> -->
                     </td>
-                    <td v-for="(column, col_index) in columns" :key="column.key" class="" :data-col-id="column.key" :style="`width:${tableStore.getColumnSize(id,column.key,column.width??150)}px`">
+                    <td v-for="(column, col_index) in columns" :key="column.key" class="" :data-col-id="column.key"
+                        :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
                         <div class="relative py-2 px-2">
                             <span
                                 class="text-sm text-gray-800 flex pointer-events-all overflow-y-hidden items-center line-clamp-1"
@@ -64,8 +60,15 @@
                     </td>
                 </tr>
             </template>
+            <template v-if="loading">
+                <tr v-for="i in 10" :key="i">
+                    <td v-for="column in columns" :key="column.key" :data-col-id="column.key" class="py-1 px-2"
+                        :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
+                        <TextPlacholder width="100%" />
+                    </td>
+                </tr>
+            </template>
         </table>
-
         <div v-if="$slots.footer" class="mt-2">
             <slot name="footer"></slot>
         </div>
@@ -74,6 +77,7 @@
 </template>
 <script setup lang="ts">
 import type { TableColumn } from '@/appBase/types'
+import TextPlacholder from '@/appBase/components/loaders/TextPlacholder.vue'
 import { onMounted } from 'vue';
 import { ref } from 'vue'
 import { useResizableTableStore } from './store';
@@ -103,7 +107,7 @@ const props = withDefaults(
 )
 // const width =
 const tableStore = useResizableTableStore();
-const emit = defineEmits(['sort', 'update:selected', 'selected', 'open', 'dragstart', 'dragend', 'dragover', 'dragleave', 'drop'])
+const emit = defineEmits(['sort', 'update:selected', 'selected', 'open', 'dragstart', 'dragend', 'dragover', 'dragleave', 'drop', 'scollBottom'])
 
 const selectedItems = ref<any[]>(props.selected ?? [])
 
@@ -155,6 +159,7 @@ const resetDragging = (target: any) => {
     target.classList.remove('bg-primary/10');
 };
 const tableHead = ref();
+const tableContainer = ref();
 onMounted(() => {
     const resizer = document.querySelectorAll('[col-resizer]') as NodeListOf<HTMLElement>;
 
@@ -169,7 +174,7 @@ onMounted(() => {
             const targetCol = thElements[colIndex] as HTMLElement;
             const prevCol = targetCol.previousElementSibling as HTMLElement;
             const nextCol = targetCol.nextElementSibling as HTMLElement;
-            const relativeCol = nextCol??prevCol;
+            const relativeCol = nextCol ?? prevCol;
             const relativeColId = relativeCol.getAttribute('data-col-id');
 
             const cols = document.querySelectorAll('td[data-col-id="' + colId + '"]') as NodeListOf<HTMLElement>;
@@ -192,12 +197,12 @@ onMounted(() => {
                 if (newRlWidth > maxWidth) newRlWidth = maxWidth;
 
                 colsWidth[colIndex] = newWidth;
-                if (newWidth==minWidth || newWidth==maxWidth || newRlWidth==minWidth || newRlWidth==maxWidth)return;
+                if (newWidth == minWidth || newWidth == maxWidth || newRlWidth == minWidth || newRlWidth == maxWidth) return;
 
                 targetCol.style.width = `${newWidth}px`;
                 relativeCol.style.width = `${newRlWidth}px`;
-                tableStore.setColumSIze(props.id,relativeColId??'',newRlWidth);
-                tableStore.setColumSIze(props.id,colId??'',newWidth);
+                tableStore.setColumSIze(props.id, relativeColId ?? '', newRlWidth);
+                tableStore.setColumSIze(props.id, colId ?? '', newWidth);
                 cols.forEach((col) => {
                     col.style.width = `${newWidth}px`;
                 });
@@ -215,6 +220,16 @@ onMounted(() => {
             document.addEventListener('mousemove', onMouseMove);
             document.addEventListener('mouseup', onMouseUp);
         });
+    });
+    tableContainer.value.addEventListener('scroll', (e: Event) => {
+        const target = e.target as HTMLElement;
+        const scrollTop = target.scrollTop;
+        const scrollHeight = target.scrollHeight;
+        const clientHeight = target.clientHeight;
+        if (scrollTop + clientHeight >= scrollHeight - 1) {
+            emit('scollBottom', { event: e, target });
+        }
+
     });
 
 })

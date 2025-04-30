@@ -75,6 +75,7 @@
 <script setup lang="ts">
 import type { TableColumn } from '../../types'
 import { ref } from 'vue'
+import TextPlacholder from '@/appBase/components/loaders/TextPlacholder.vue'
 
 const props = withDefaults(
     defineProps<{
