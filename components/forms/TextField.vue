@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col ">
+    <div class="flex flex-col " @keydown="keyEvent">
         <label v-if="label" :for="id" class="block text-sm font-bold"> {{ label
             }} </label>
         <div class="flex rounded-lg outline-0 ring-primary bg-body items-center gap-3"
@@ -44,4 +44,16 @@ withDefaults(defineProps<{
 });
 const model = defineModel() as any
 
+const keyEvent = (e: KeyboardEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+        if (e.key == 'a') {
+            e.preventDefault();
+            model.value = model.value;
+        }
+        if (e.key == 'z') {
+            e.preventDefault();
+            model.value = model.value;
+        }
+    }
+}
 </script>
