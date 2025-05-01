@@ -39,3 +39,13 @@ body {
 .fade-leave-to {
     opacity: 0;
 }
+
+.scrollbar-hide {
+    /* Firefox */
+    scrollbar-width: none;
+
+    /* Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white rounded-lg border max-h-full overflow-y-auto" ref="tableContainer">
+    <div class="bg-white rounded-lg border max-h-full overflow-y-auto scrollbar-hide" ref="tableContainer">
         <div class="">
             <div v-if="$slots.header" class="mb-5">
                 <slot name="header"></slot>
