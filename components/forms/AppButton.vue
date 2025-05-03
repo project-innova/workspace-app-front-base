@@ -28,7 +28,7 @@ withDefaults(
         type: 'button',
         loadingLabel: 'Chargement...',
         loading: false,
-        filled: true,
+        filled: false,
         size: 'lg',
     },
 )

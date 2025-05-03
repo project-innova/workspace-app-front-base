@@ -20,6 +20,9 @@ const toogleMenu = (event: MouseEvent) => {
     }
 };
 
+const openUrl = (url: string) => {
+    window.open(url, '_blank')
+}
 
 onMounted(async () => {
     notificationStore.loadNotifications();
@@ -84,15 +87,20 @@ onMounted(async () => {
                         <p class="text-sm text-gray-400">{{ notification.message }}</p>
                         <p class="text-sm text-gray-400">{{ notification.date }}</p>
                         <div class="flex gap-3 mt-2" v-if="notification.url && notification.item_id">
-                            <a class="app-btn small success"
+                            <button class="app-btn small success"
                                 @click="notificationStore.notifAction(true, notification.url, notification.item_id, notification.id)">
                                 <CheckIcon class="size-4" />
                                 <span>Repondre</span>
-                            </a>
+                            </button>
                             <button class="app-btn small danger"
                                 @click="notificationStore.notifAction(false, notification.url, notification.item_id, notification.id)">
                                 <XIcon class="size-4" />
                                 <span>Refuser</span>
+                            </button>
+                        </div>
+                        <div class="flex gap-3 mt-2" v-else-if="notification.url">
+                            <button class="app-btn small success" @click="openUrl(notification.url)">
+                                <span>Ouvrir</span>
                             </button>
                         </div>
 
@@ -119,6 +127,7 @@ onMounted(async () => {
                                 <span>Refusé</span>
                             </span>
                         </div>
+
                     </span>
                 </div>
             </div>

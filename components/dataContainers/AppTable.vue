@@ -27,7 +27,7 @@
                 <tbody>
                     <template v-if="loading">
                         <tr v-for="i in 10" :key="i">
-                            <td v-for="column in columns" :key="column.key" class="py-1">
+                            <td v-for="column in columns" :key="column.key" class="py-1 px-2">
                                 <TextPlacholder width="100%" />
                             </td>
                         </tr>
