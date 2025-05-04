@@ -10,11 +10,11 @@
                 :style="[menuProperties, 'width:' + props.wd + 'px']" v-show="isOpen" :id="`dropdown-select-${_id}`">
                 <ul>
                     <li v-for="(menu) in menus">
-                        <button @click="() => { menu.action(menu.data); isOpen = false }" class="w-full">
+                        <button @click="() => { menu.action(props.data); isOpen = false }" class="w-full">
                             <slot name="name" :props="menu">
                                 <div
-                                    class="flex justify-start itema-center gap-2 text-sm p-2 rounded-lg hover:bg-gray-100">
-                                    <component :is="menu.icon" class="size-5" />
+                                    class="flex justify-start itema-center gap-2 text-sm p-2 rounded-lg hover:bg-primary/10 hover:text-primary">
+                                    <component :is="menu.icon" class="size-4" />
                                     <span>{{ menu.label }}</span>
                                 </div>
                             </slot>
@@ -34,6 +34,7 @@ const props = withDefaults(
         btnClass?: string,
         wd?: number,
         position?: 'left' | 'right',
+        data?:Record<string,any>
         menus: {
             label: string,
             data?: any,
