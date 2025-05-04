@@ -30,7 +30,8 @@
         <table class="table-fixed w-full">
             <template v-for="(item, index) in dataCollection">
                 <tr draggable="true" :id="`table-data-item-${item.id}`"
-                    class="hover:bg-gray-100 transition-all duration-300 select-none cursor-pointer" :class="trClass"
+                    class="hover:bg-primary/10 hover:text-primary transition-all duration-300 select-none cursor-pointer"
+                    :class="[trClass,itemClassCondition?itemClassCondition!(item,index):'']"
                     @click="$emit('selected', { item, index })" @dblclick="$emit('open', { item, index })"
                     @dragstart="onDragStart($event, item, `table-data-item-${item.id}`)"
                     @dragover="onDragOver($event, item, `table-data-item-${item.id}`)"
@@ -92,7 +93,9 @@ const props = withDefaults(
         id?: string
         cellClass?: string
         trClass?: string
-        thClass?: string
+        thClass?: string,
+        itemShowCondition?: (item:any,index:number)=>boolean,
+        itemClassCondition?: (item:any,index:number)=>string,
         selected?: string[] | number[]
         dataCollection: any[]
         loading?: boolean
