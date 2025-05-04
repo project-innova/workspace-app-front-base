@@ -6,9 +6,8 @@
             <h3 class="text-lg font-medium text-color">{{ title }}</h3>
             <p class="text-sm text-color-secondary my-5">{{ description }}</p>
             <div class="grid grid-cols-2 gap-2 mt-4 w-full">
-                <button class="app-btn py-2 px-4 w-full flex " @click="$emit('cancel')">{{ cancelText }}</button>
-                <button class="app-btn py-2 px-4 w-full flex !bg-danger text-white" @click="$emit('confirm')">{{
-                    confirmText }}</button>
+                <AppButton class="secondary" @click="$emit('cancel')">{{ cancelText }}</AppButton>
+                <AppButton class="danger" @click="$emit('confirm')">{{ confirmText }}</AppButton>
             </div>
         </div>
     </HeadlessModal>

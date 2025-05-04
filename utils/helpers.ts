@@ -35,5 +35,10 @@ const parseDate = (dateString: string, format: string): Date => {
 
     return new Date(dateParts.year, dateParts.month, dateParts.day, dateParts.hours, dateParts.minutes, dateParts.seconds);
 };
-
-export { formatDate, parseDate };
+const handleConfirmation = (option:{title:string,message:string,onConfirm:()=>void,onCancel:()=>void})=>{
+    const ev = new CustomEvent('show-confirmation',{
+        detail:option
+    });
+    document.dispatchEvent(ev)
+}
+export { formatDate, parseDate,handleConfirmation };

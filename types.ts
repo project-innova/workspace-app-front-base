@@ -1,6 +1,8 @@
 interface DgiwsFrontPlugin {
     appUrl: string,
     modulesUrls: DgiwsModules
+    drawerPages?: string[] | '*'| '!*';
+
 }
 interface DgiwsModules {
     dashboard: string;
@@ -48,6 +50,7 @@ interface AuthUser {
     email_verified_at: boolean
     profile: Profile
 }
+
 interface TableColumn {
     label: string;
     key: string;

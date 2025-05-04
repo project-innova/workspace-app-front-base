@@ -21,6 +21,7 @@ export default {
         app.use(VueAwesomePaginate);
         app.use(Toast);
         app.config.globalProperties.$modulesUrls = options.modulesUrls;
+        app.config.globalProperties.$drawerPages = options.drawerPages??'*';
         app.component('BaseLayout', BaseLayout);
         window.$socket = io(options.modulesUrls.webSocket, {
             extraHeaders: {
@@ -33,6 +34,7 @@ export default {
         }
 
         window.$modulesUrls = options.modulesUrls;
+        window.$drawerPages = options.drawerPages??'*';
         app.component('AppButton', AppButton);
         app.component('TextField', TextField);
         app.config.globalProperties.$userToken = window.$userToken??'';

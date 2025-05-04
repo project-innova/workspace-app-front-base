@@ -13,6 +13,7 @@ declare global {
         $socket: Socket
         $userToken: String
         $modulesUrls: DgiwsModules
+        $drawerPages: string[] | '*'| '!*'
         $url: (path: string) => string
     }
     const $useToast: typeof useToast
@@ -39,6 +40,8 @@ declare module 'vue' {
         }
         $userTrouteoken: String
         $modulesUrls: DgiwsModules
+        $drawerPages: string[] | '*'| '!*'
+
         $url: (path: string) => string
     }
 }

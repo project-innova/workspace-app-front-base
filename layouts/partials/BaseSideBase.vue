@@ -6,7 +6,8 @@
                     alt="Short logo" />
             </div>
             <div class="flex flex-col items-center gap-3 h-full">
-                <button @click="sideStore.toggleShow"
+                <button v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))"
+                    @click="sideStore.toggleShow"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-gray-300">
                     <ChevronLeftIcon class="size-6 transition-transform" :class="{ 'rotate-180': sideStore.show }"
                         stroke-width="1.5" />
@@ -59,29 +60,34 @@
 
             </div>
         </div>
-        <AppButton @click="showLogoutModal = true" icon secondary :filled="false">
+        <AppButton @click="logout" icon secondary :filled="false">
             <LogOutIcon class="size-5" stroke-width="1.5" />
         </AppButton>
     </div>
-
-    <Transition name="side-bar-left">
-        <div v-show="sideStore.show" class="w-[360px] pl-16 pr-2 fixed z-[48] h-screen py-2 bg-gray-100">
-            <div class="h-full overflow-y-auto bg-white rounded-lg border">
-                <component :is="$route.meta.sidebar" />
+    <template v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))">
+        <Transition name="side-bar-left">
+            <div v-show="sideStore.show" class="w-[360px] pl-16 pr-2 fixed z-[48] h-screen py-2 bg-gray-100">
+                <div class="h-full overflow-y-auto bg-white rounded-lg border">
+                    <component :is="$route.meta.sidebar" />
+                </div>
             </div>
-        </div>
-    </Transition>
+        </Transition>
+    </template>
+
     <Transition name="fade">
         <div v-if="sideStore.show" class="w-screen h-screen bg-black/50 fixed lg:hidden z-[47]"></div>
     </Transition>
-    <ConfirmationModal :show="showLogoutModal" title="Déconnexion" description="Souhaitez vous vous déconnecter ?"
-        @cancel="onLogoutResponse(false)" @confirm="onLogoutResponse(true)" />
+    <ConfirmationModal :show="confirmationModal.show" :title="confirmationModal.title"
+        :description="confirmationModal.message" @cancel="onConfirmationResponse(false)"
+        @confirm="onConfirmationResponse(true)" />
 </template>
 <script setup lang="ts">
+import { onMounted } from 'vue';
 import ConfirmationModal from '../../components/dialogs/ConfirmationModal.vue'
 
 import { useAuthStore } from "../../stores/auth";
 import { useSideBar } from '../../stores/sidebar';
+import { handleConfirmation } from '../../utils/helpers'
 import { BotIcon, CalendarIcon, ChevronLeftIcon, ContactIcon, HardDriveIcon, HomeIcon, LogOutIcon, MailIcon, MessageSquareIcon, UsersIcon, VideoIcon } from 'lucide-vue-next'
 import { ref } from 'vue'
 const authStore = useAuthStore()
@@ -102,4 +108,44 @@ const getCurrentDomain = () => (
 const getUrlDomain = (url: string) => (
     url.match(/http[s]?:\/\/([^\/]+)/)?.[1] || ''
 )
+const confirmationModalFiedls = {
+    title: 'Demande de confirmation',
+    message: 'Etes vous sur de cette action',
+    show: false,
+    onConfirm: () => { },
+    onCancel: () => { },
+}
+const confirmationModal = ref(confirmationModalFiedls)
+
+const onConfirmationResponse = (rsp: boolean) => {
+    confirmationModal.value.show = false;
+    if (rsp) {
+        confirmationModal.value.onConfirm()
+    } else {
+        confirmationModal.value.onCancel()
+    }
+}
+const logout = () => {
+    handleConfirmation({
+        title: 'Déconnexion',
+        message: 'Souhaitez vous vous déconnecter ?',
+        onConfirm() {
+
+        }, onCancel() {
+
+        },
+    })
+}
+onMounted(() => {
+    //@ts-ignore
+    document.addEventListener('show-confirmation', (e: CustomEvent) => {
+        const details = e.detail;
+        confirmationModal.value.message = details.message;
+        confirmationModal.value.title = details.title;
+        confirmationModal.value.onConfirm = details.onConfirm;
+        confirmationModal.value.onCancel = details.onCancel;
+
+        confirmationModal.value.show = true;
+    })
+})
 </script>
