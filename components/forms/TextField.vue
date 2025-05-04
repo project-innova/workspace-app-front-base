@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col " @keydown="keyEvent">
+    <div class="flex flex-col " @keydown.stop="">
         <label v-if="label" :for="id" class="block text-sm font-bold"> {{ label
             }} </label>
         <div class="flex rounded-lg outline-0 ring-primary bg-body items-center gap-3"
