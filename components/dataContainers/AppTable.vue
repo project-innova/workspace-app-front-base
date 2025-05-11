@@ -1,5 +1,5 @@
 <template>
-    <div class="app-table app-card max-h-full overflow-y-auto">
+    <div class="bg-white border rouned-md app-card max-h-full overflow-y-auto">
         <div v-if="$slots.header" class="mb-5">
             <slot name="header"></slot>
         </div>

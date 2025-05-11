@@ -1,5 +1,5 @@
 <template>
-    <button :type="type" class="app-btn primary" :class="{ icon: icon, secondary: secondary, filled: filled }">
+    <button :disabled="disbaled" :type="type" class="app-btn primary" :class="{ icon: icon, secondary: secondary, filled: filled,'secondary cursor-not-allowed':disbaled }">
         <span v-if="!loading" class="flex gap-2 items-center">
             <slot name="label">
                 {{ label }}
@@ -22,6 +22,7 @@ withDefaults(
         loading?: boolean
         icon?: boolean
         secondary?: boolean
+        disbaled?: boolean
         filled?: boolean
     }>(),
     {

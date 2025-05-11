@@ -34,7 +34,7 @@ const props = withDefaults(
 const model = defineModel<any>()
 const config = {
     wrap: false,
-    altFormat: props.displayFormat,
+    altFormat: props.displayFormat?props.displayFormat:(props.format?props.format:'Y-m-d'),
     altInput: true,
     dateFormat: props.format,
     minDate: props.minDate,
