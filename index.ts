@@ -11,7 +11,10 @@ import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import VueAwesomePaginate from "vue-awesome-paginate";
 import Toast from './utils/plugins/toast/index';
-
+import PrimeVue from 'primevue/config';
+import Aura from '@primeuix/themes/aura';
+import { definePreset } from '@primeuix/themes';
+import Tooltip from 'primevue/tooltip';
 export default {
     install(app: App, options: DgiwsFrontPlugin) {
         const pinia = createPinia();
@@ -20,6 +23,30 @@ export default {
         app.use(pinia)
         app.use(VueAwesomePaginate);
         app.use(Toast);
+        const MyPreset = definePreset(Aura, {
+            semantic: {
+                primary: {
+                    100: '#FF8200',
+                    200: '#FF8200',
+                    300: '#FF8200',
+                    400: '#FF8200',
+                    500: '#FF8200',
+                    600: '#FF8200',
+                },
+                secondary: '#f50057',
+                accent: '#009688',
+                neutral: '#333333',
+            }
+        });
+        app.use(PrimeVue, {
+            theme: {
+                preset: MyPreset,
+                options:{
+                    darkModeSelector: '.dark-mode',
+                }
+            }
+        });
+        app.directive('tooltip', Tooltip);
         app.config.globalProperties.$modulesUrls = options.modulesUrls;
         app.config.globalProperties.$drawerPages = options.drawerPages??'*';
         app.component('BaseLayout', BaseLayout);

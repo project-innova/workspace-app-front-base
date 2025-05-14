@@ -1,12 +1,12 @@
 <template>
-    <AppButton class="icon primary large" :class="$attrs.class" @click="showModal">
+    <AppButton class="icon primary large filled" :class="$attrs.class" @click="showModal">
         <Contact2Icon />
     </AppButton>
     <HeadlessModal position="top" :show="show" size="sm" contentClass="p-0">
         <template #head>
             <div class="relative w-full flex justify-center items-center">
                 <h2 class="text-lg font-bold">
-                    Sélèctionnez des Contacts
+                    Sélectionner des Contacts
                 </h2>
 
                 <XIcon class="size-6 text-gray-400 hover:text-primary cursor-pointer absolute top-0 right-0"
@@ -16,8 +16,8 @@
         <div class="">
             <div class="mb-3">
                 <DropdownSelect
-                    :options="contactStore.contacts.items.map((ct) => ({ label: ct.name, value: ct.email }))"
-                    v-model="contactStore.selected" multiple :maxShow="1" />
+                    :options="contactStore.contacts.items.map((ct) => ({ label: ct.full_name, value: ct.email }))"
+                    v-model="contactStore.selected" multiple :maxShow="1" filter />
             </div>
             <table class="w-full">
                 <tbody>
@@ -40,6 +40,9 @@ import { onMounted, ref } from 'vue';
 import { useContactSTore } from './store';
 import { Contact2Icon, XIcon } from 'lucide-vue-next';
 import HeadlessModal from '../../components/dialogs/HeadlessModal.vue';
+const props = defineProps<{
+    type?:'all'|'collaborators'|'contacts'
+}>()
 const contactStore = useContactSTore();
 const emit = defineEmits(['selected'])
 
@@ -65,6 +68,6 @@ const validate = () => {
 
 
 onMounted(() => {
-    contactStore.load();
+    contactStore.load(props.type);
 })
 </script>

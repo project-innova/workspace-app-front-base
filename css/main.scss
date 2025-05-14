@@ -11,6 +11,10 @@
 
 body {
     background-color: var(--bg-color);
+    --p-tooltip-padding: 2px 5px;
+    --p-tooltip-background: #00000097;
+    --p-tooltip-text-color: var(--text-color);
+    --p-tooltip-border-radius: 5px;
 }
 
 

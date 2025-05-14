@@ -1,5 +1,5 @@
 <template>
-    <button :disabled="disbaled" :type="type" class="app-btn primary" :class="{ icon: icon, secondary: secondary, filled: filled,'secondary cursor-not-allowed':disbaled }">
+    <button :disabled="disbaled" :type="type" class="app-btn primary" :class="{ icon: icon,'text-sm p-2 py-2':size=='md','text-sm p-2 py-1':size=='sm', secondary: secondary, filled: filled,'secondary cursor-not-allowed':disbaled }">
         <span v-if="!loading" class="flex gap-2 items-center">
             <slot name="label">
                 {{ label }}

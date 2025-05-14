@@ -39,14 +39,15 @@
                     :class="{ 'rotate-180': isOpen }" />
             </div>
         </button> -->
-        <Dropdown :options="options" :modelValue="modelValue" @update:model-value="$emit('update:modelValue',$event)" :option-label="props.optionLabel" :option-value="props.optionValue" class="!border-0 h-[48px] flex items-center !bg-gray-100 w-full" />
-
+        <MultiSelect v-if="multiple" :options="options" :modelValue="modelValue" :filter="filter" @update:model-value="$emit('update:modelValue',$event)" :option-label="props.optionLabel" :option-value="props.optionValue" class="!border-0 h-[48px] flex items-center !bg-gray-100 w-full"/>
+        <Dropdown v-else :options="options" :modelValue="modelValue" :filter="filter" @update:model-value="$emit('update:modelValue',$event)" :option-label="props.optionLabel" :option-value="props.optionValue" class="!border-0 h-[48px] flex items-center !bg-gray-100 w-full" />
     </div>
 </template>
 <script setup lang="ts">
 import { ChevronDownIcon, XIcon } from 'lucide-vue-next'
 import { onMounted, ref, watch } from 'vue'
 import Dropdown from 'primevue/dropdown';
+import MultiSelect from 'primevue/multiselect';
 interface SelectOptionValueColor {
     textColor: string,
     bgColor: string,
