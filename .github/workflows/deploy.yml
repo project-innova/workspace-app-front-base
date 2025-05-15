@@ -36,6 +36,7 @@ jobs:
             cd ${{ secrets.MODULE_PATH }}/drive
             cd resources/js/appBase
             git pull origin main
+            cd ../../../
             docker-compose down
             docker-compose up -d
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
@@ -47,6 +48,7 @@ jobs:
             cd ${{ secrets.MODULE_PATH }}/team
             cd resources/js/appBase
             git pull origin main
+            cd ../../../
             docker-compose down
             docker-compose up -d
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
@@ -58,6 +60,7 @@ jobs:
             cd ${{ secrets.MODULE_PATH }}/meet
             cd resources/js/appBase
             git pull origin main
+            cd ../../../
             docker-compose down
             docker-compose up -d
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
