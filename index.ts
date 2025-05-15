@@ -26,16 +26,21 @@ export default {
         const MyPreset = definePreset(Aura, {
             semantic: {
                 primary: {
-                    100: '#FF8200',
+                    50: '##ffffff',
+                    100: '#fff1e2',
                     200: '#FF8200',
                     300: '#FF8200',
                     400: '#FF8200',
                     500: '#FF8200',
                     600: '#FF8200',
+                    700: '#FF8200',
+                    800: '#FF8200',
+                    900: '#FF8200',
+                    950: '#FF8200',
                 },
-                secondary: '#f50057',
-                accent: '#009688',
-                neutral: '#333333',
+                // secondary: '#f50057',
+                // accent: '#009688',
+                // neutral: '#333333',
             }
         });
         app.use(PrimeVue, {
