@@ -38,7 +38,7 @@ jobs:
             git pull origin main
             cd ../../../
             docker-compose down
-            docker-compose up -d
+            docker-compose up --build -d
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm run build
           EOF
@@ -50,7 +50,7 @@ jobs:
             git pull origin main
             cd ../../../
             docker-compose down
-            docker-compose up -d
+            docker-compose up --build -d
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm run build
           EOF
@@ -62,7 +62,7 @@ jobs:
             git pull origin main
             cd ../../../
             docker-compose down
-            docker-compose up -d
+            docker-compose up --build -d
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
             docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm run build
           EOF
