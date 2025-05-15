@@ -39,8 +39,8 @@
                     :class="{ 'rotate-180': isOpen }" />
             </div>
         </button> -->
-        <MultiSelect  v-if="multiple" :options="options" :modelValue="modelValue" :filter="filter" @update:model-value="$emit('update:modelValue',$event)" :option-label="props.optionLabel" :option-value="props.optionValue" class=" flex items-center w-full !shadow-0 h-12 border !border-gray-200":class="btnClass"/>
-        <Dropdown  v-else :options="options" :modelValue="modelValue" :filter="filter" @update:model-value="$emit('update:modelValue',$event)" :option-label="props.optionLabel" :option-value="props.optionValue" class=" flex items-center w-full !shadow-0 h-12 border !border-gray-200" :class="btnClass"/>
+        <MultiSelect  v-if="multiple" :options="options" :modelValue="modelValue" :filter="filter" @update:model-value="$emit('update:modelValue',$event)" :option-label="props.optionLabel" :option-value="props.optionValue" class=" flex items-center w-full !shadow-0 h-11 border !border-gray-200":class="btnClass"/>
+        <Dropdown  v-else :options="options" :modelValue="modelValue" :filter="filter" @update:model-value="$emit('update:modelValue',$event)" :option-label="props.optionLabel" :option-value="props.optionValue" class=" flex items-center w-full !shadow-0 h-11 border !border-gray-200" :class="btnClass"/>
     </div>
 </template>
 <script setup lang="ts">
