@@ -52,7 +52,7 @@ jobs:
             cd ../../../
             docker-compose down
             docker-compose up --build -d
-            echo ${{ secrets.MODULE_DRIVE_IMAGE_NAME }}
+            echo ${{ secrets.MODULE_TEAM_IMAGE_NAME }}
             docker exec ${{ secrets.MODULE_TEAM_IMAGE_NAME }} npm i --force
             docker exec ${{ secrets.MODULE_TEAM_IMAGE_NAME }} npm run build
           EOF
@@ -65,7 +65,7 @@ jobs:
             cd ../../../
             docker-compose down
             docker-compose up --build -d
-            echo ${{ secrets.MODULE_DRIVE_IMAGE_NAME }}
+            echo ${{ secrets.MODULE_MEET_IMAGE_NAME }}
             docker exec ${{ secrets.MODULE_MEET_IMAGE_NAME }} npm i --force
             docker exec ${{ secrets.MODULE_MEET_IMAGE_NAME }} npm run build
           EOF
