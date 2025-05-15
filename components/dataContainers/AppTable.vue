@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-white border rouned-md app-card max-h-full overflow-y-auto">
-        <div v-if="$slots.header" class="mb-5">
+    <div class="bg-white border rouned-md app-card max-h-full overflow-y-auto p-0">
+        <div v-if="$slots.header" class="mb-5 p-3">
             <slot name="header"></slot>
         </div>
         <div class="w-full overflow-x-auto">
