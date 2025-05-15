@@ -39,8 +39,8 @@ jobs:
             cd ../../../
             docker-compose down
             docker-compose up --build -d
-            docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
-            docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm run build
+            docker exec ${{ secrets.MODULE_DRIVE_IMAGE_NAME }} npm i --force
+            docker exec ${{ secrets.MODULE_DRIVE_IMAGE_NAME }} npm run build
           EOF
       - name: Deploy to team & contact
         run: |
@@ -51,8 +51,8 @@ jobs:
             cd ../../../
             docker-compose down
             docker-compose up --build -d
-            docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
-            docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm run build
+            docker exec ${{ secrets.MODULE_TEAM_IMAGE_NAME }} npm i --force
+            docker exec ${{ secrets.MODULE_TEAM_IMAGE_NAME }} npm run build
           EOF
       - name: Deploy to meet
         run: |
@@ -63,6 +63,6 @@ jobs:
             cd ../../../
             docker-compose down
             docker-compose up --build -d
-            docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm i --force
-            docker exec ${{ secrets.MODULE_IMAGE_NAME }} npm run build
+            docker exec ${{ secrets.MODULE__MEET_IMAGE_NAME }} npm i --force
+            docker exec ${{ secrets.MODULE__MEET_IMAGE_NAME }} npm run build
           EOF
