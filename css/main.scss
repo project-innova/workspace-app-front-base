@@ -20,15 +20,42 @@ body {
     --p-select-option-border-radius: 7px;
     --p-select-option-padding: 5px 8px;
     --p-select-overlay-shadow: 0px 11px 16px 0px rgb(0 0 0 / 9%);
-    --p-multiselect-overlay-border-radius:var(--p-select-overlay-border-radius);
-    --p-multiselect-option-border-radius:var(--p-select-option-border-radius);
-    --p-multiselect-padding:var(--p-select-option-padding);
-    --p-multiselect-option-padding:5px 7px;
-    --p-multiselect-list-header-padding:10px 10px;
+    --p-multiselect-overlay-border-radius: var(--p-select-overlay-border-radius);
+    --p-multiselect-option-border-radius: var(--p-select-option-border-radius);
+    --p-multiselect-padding: var(--p-select-option-padding);
+    --p-multiselect-option-padding: 5px 7px;
+    --p-multiselect-list-header-padding: 10px 10px;
     --p-multiselect-overlay-shadow: var(--p-select-overlay-shadow);
+    --p-select-border-color: #eeeeee;
+    --p-select-shadow: 0;
+    --p-multiselect-shadow: 0;
+    --p-multiselect-border-color: var(--p-select-border-color);
 
 }
 
+.p-select,
+.p-multiselect {
+    display: flex;
+    align-items: center;
+    height: 2.5rem;
+    width: 100%;
+
+    &:hover {
+        border-color: var(--color-primary) !important;
+    }
+}
+
+.p-select-overlay,
+.p-multiselect-overlay {
+    .p-inputtext {
+        border-radius: var(--p-multiselect-option-border-radius);
+        padding: var(--p-multiselect-padding);
+        border: 1px solid var(--p-multiselect-border-color);
+        &:hover {
+            border-color: var(--color-primary)!important;
+        }
+    }
+}
 
 .side-bar-left-enter-active {
     transition: all 0.2s ease-out;
