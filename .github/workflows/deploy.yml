@@ -37,6 +37,7 @@ jobs:
             cd resources/js/appBase
             git pull origin main
             cd ../../../
+            pwd
             docker-compose down
             docker-compose up --build -d
             echo ${{ secrets.MODULE_DRIVE_IMAGE_NAME }}
@@ -50,6 +51,7 @@ jobs:
             cd resources/js/appBase
             git pull origin main
             cd ../../../
+            pwd
             docker-compose down
             docker-compose up --build -d
             echo ${{ secrets.MODULE_TEAM_IMAGE_NAME }}
@@ -60,9 +62,11 @@ jobs:
         run: |
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd ${{ secrets.MODULE_PATH }}/meet
+            cd ${{ secrets.MODULE_PATH }}/meet
             cd resources/js/appBase
             git pull origin main
             cd ../../../
+            pwd
             docker-compose down
             docker-compose up --build -d
             echo ${{ secrets.MODULE_MEET_IMAGE_NAME }}
