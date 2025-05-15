@@ -2,7 +2,7 @@
     <AppButton class="icon primary large filled" :class="$attrs.class" @click="showModal">
         <Contact2Icon />
     </AppButton>
-    <HeadlessModal position="top" :show="show" size="sm" contentClass="p-0">
+    <HeadlessModal position="top" :show="show" size="md" contentClass="p-0">
         <template #head>
             <div class="relative w-full flex justify-center items-center">
                 <h2 class="text-lg font-bold">
@@ -28,7 +28,7 @@
                 </tbody>
             </table>
             <div class="flex w-full">
-                <AppButton @click="validate" class="w-full mt-10">Valider</AppButton>
+                <AppButton @click="validate" class="w-full mt-10 filled">Valider</AppButton>
             </div>
         </div>
     </HeadlessModal>
