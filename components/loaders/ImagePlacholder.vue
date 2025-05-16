@@ -7,8 +7,8 @@
 </template>
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-    width: string
-    height: string,
+    width?: string
+    height?: string,
     rounded?: boolean,
     roundedFull?: boolean,
 }>(), {
