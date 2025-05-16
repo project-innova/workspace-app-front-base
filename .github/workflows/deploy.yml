@@ -1,0 +1,75 @@
+name: Deploy dgiws app base components and helpers module
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+env:
+  SSH_USER: ${{ secrets.SSH_USER }}
+  SSH_HOST: ${{ secrets.SSH_HOST }}
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+
+jobs:
+  deploy:
+    name: Deploy via SSH
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to drive
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ${{ secrets.MODULE_PATH }}/drive
+            cd resources/js/appBase
+            git pull origin main
+            cd ../../../
+            pwd
+            docker-compose down
+            docker-compose up --build -d
+            echo ${{ secrets.MODULE_DRIVE_IMAGE_NAME }}
+            docker exec ${{ secrets.MODULE_DRIVE_IMAGE_NAME }} npm i --force
+            docker exec ${{ secrets.MODULE_DRIVE_IMAGE_NAME }} npm run build
+          EOF
+      - name: Deploy to team & contact
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ${{ secrets.MODULE_PATH }}/team
+            cd resources/js/appBase
+            git pull origin main
+            cd ../../../
+            pwd
+            docker-compose down
+            docker-compose up --build -d
+            echo ${{ secrets.MODULE_TEAM_IMAGE_NAME }}
+            docker exec ${{ secrets.MODULE_TEAM_IMAGE_NAME }} npm i --force
+            docker exec ${{ secrets.MODULE_TEAM_IMAGE_NAME }} npm run build
+          EOF
+      - name: Deploy to meet
+        run: |
+          ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
+            cd ${{ secrets.MODULE_PATH }}/meet
+            cd ${{ secrets.MODULE_PATH }}/meet
+            cd resources/js/appBase
+            git pull origin main
+            cd ../../../
+            pwd
+            docker-compose down
+            docker-compose up --build -d
+            echo ${{ secrets.MODULE_MEET_IMAGE_NAME }}
+            docker exec ${{ secrets.MODULE_MEET_IMAGE_NAME }} npm i --force
+            docker exec ${{ secrets.MODULE_MEET_IMAGE_NAME }} npm run build
+          EOF

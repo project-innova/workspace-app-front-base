@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useAuthStore } from "../stores/auth";
 
 export const HTTP = axios.create({
     headers: {
@@ -8,7 +9,8 @@ export const HTTP = axios.create({
 });
 
 HTTP.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${window.$userToken}`;
+    const token = useAuthStore().accessToken;
+    config.headers.Authorization = `Bearer ${token}`;
     return config;
 });
 

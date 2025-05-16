@@ -67,6 +67,13 @@
             @apply bg-primary text-white hover:bg-primary-hover;
         }
     }
+    &.white {
+        @apply bg-white hover:bg-white hover:text-primary border text-gray-500;
+
+        &.filled {
+            @apply bg-white;
+        }
+    }
 
     &.secondary {
         @apply bg-gray-700/10 text-gray-700 hover:bg-gray-700/10;

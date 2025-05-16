@@ -1,5 +1,5 @@
 <template>
-    <svg :class="class" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg :class="$attrs.class" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <circle cx="17" cy="16" r="14" fill="url(#paint0_linear_87_7757)" />
         <mask id="mask0_87_7757" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="3" y="2" width="28" height="28">
             <circle cx="17" cy="16" r="14" fill="#C4C4C4" />
@@ -33,10 +33,5 @@
     </svg>
 </template>
 <script setup lang="ts">
-defineProps({
-    class: {
-        type: String,
-        default: "w-32"
-    }
-})
+
 </script>

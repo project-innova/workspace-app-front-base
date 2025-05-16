@@ -15,14 +15,15 @@ import PrimeVue from 'primevue/config';
 import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import Tooltip from 'primevue/tooltip';
+import { useAuthStore } from './stores/auth';
 export default {
     install(app: App, options: DgiwsFrontPlugin) {
         const pinia = createPinia();
         pinia.use(piniaPluginPersistedstate);
-
         app.use(pinia)
         app.use(VueAwesomePaginate);
         app.use(Toast);
+        const authStore = useAuthStore();
         const MyPreset = definePreset(Aura, {
             semantic: {
                 primary: {
@@ -55,9 +56,10 @@ export default {
         app.config.globalProperties.$modulesUrls = options.modulesUrls;
         app.config.globalProperties.$drawerPages = options.drawerPages??'*';
         app.component('BaseLayout', BaseLayout);
+
         window.$socket = io(options.modulesUrls.webSocket, {
             extraHeaders: {
-                Authorization: `Bearer ${window.$userToken}`
+                Authorization: `Bearer ${authStore.accessToken}`
             }
         }) as unknown as Socket<DefaultEventsMap, DefaultEventsMap>;
 
@@ -69,7 +71,7 @@ export default {
         window.$drawerPages = options.drawerPages??'*';
         app.component('AppButton', AppButton);
         app.component('TextField', TextField);
-        app.config.globalProperties.$userToken = window.$userToken??'';
+        app.config.globalProperties.$userToken = authStore.accessToken??'';
         app.config.globalProperties.$url = (path: string = '') => {
             return options.appUrl + path;
         };

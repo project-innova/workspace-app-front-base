@@ -4,20 +4,24 @@ import {
     CheckIcon,
     XIcon,
     TrashIcon,
+    RefreshCcwIcon,
 } from "lucide-vue-next";
 import { onMounted } from "vue";
 import { ref } from "vue";
 import Menu from "../../components/dialogs/Menu.vue";
 import { useNotificationStore } from "./notificationStore";
+import Popover from "primevue/popover";
 
 const notificationStore = useNotificationStore();
 
 const notificationsMenuRef = ref<any>();
 
 const toogleMenu = (event: MouseEvent) => {
-    if (notificationStore.unreadNotifications.length > 0 || notificationStore.readNotifications.length > 0) {
-        notificationsMenuRef.value.toggle(event);
-    }
+    // if (notificationStore.unreadNotifications.length > 0 || notificationStore.readNotifications.length > 0) {
+    //     notificationsMenuRef.value.show(event);
+    // }
+    notificationsMenuRef.value.show(event);
+
 };
 
 const openUrl = (url: string) => {
@@ -61,16 +65,20 @@ onMounted(async () => {
         </span>
     </button>
 
-    <Menu position="bottomRight" ref="notificationsMenuRef" class="!w-[400px]">
-        <div class="">
-            <div class="p-3 pb-0">
+    <Popover position="bottomRight" ref="notificationsMenuRef">
+        <div class="!w-[400px]">
+            <div class="p-3 pb-0 flex items-center w-full justify-between">
                 <div class="flex items-center gap-2">
                     <span class="text-xl font-bold text-gray-600">Centre de notifications</span>
                 </div>
-                <button class="app-btn small rounded-lg">
-                    <TrashIcon class="text-gray-500 size-4" />
-                    <span>Supprimer tout</span>
-                </button>
+                <div class="flex gap-2">
+                    <AppButton class="icon" v-tooltip.bottom="'Supprimer tout'">
+                        <TrashIcon class="size-4" />
+                    </AppButton>
+                    <AppButton class="icon" v-tooltip.bottom="'Recharger la liste'">
+                        <RefreshCcwIcon class="size-4" />
+                    </AppButton>
+                </div>
             </div>
             <span class="border-b border-gray-200 w-full h-[1px] inline-block"></span>
             <div class="max-h-[400px] overflow-y-auto">
@@ -132,5 +140,5 @@ onMounted(async () => {
                 </div>
             </div>
         </div>
-    </Menu>
+    </Popover>
 </template>

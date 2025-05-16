@@ -1,6 +1,6 @@
 <template>
 
-    <svg :class="class" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
+    <svg :class="$attrs.class" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 56 56" xml:space="preserve">
         <g>
             <path style="fill:#E9E9E0;" d="M36.985,0H7.963C7.155,0,6.5,0.655,6.5,1.926V55c0,0.345,0.655,1,1.463,1h40.074
@@ -41,10 +41,5 @@
 
 </template>
 <script setup lang="ts">
-defineProps({
-    class: {
-        type: String,
-        default: "w-32"
-    }
-})
+
 </script>

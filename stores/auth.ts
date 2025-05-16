@@ -4,13 +4,22 @@ import { HTTP } from "../utils/http";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
 
+interface AuthToken {
+    access_token: string,
+    refresh_token: string,
+    expires_in: number,
+    token_type: string,
+}
+
 export const useAuthStore = defineStore('authStore', () => {
     const user = ref<AuthUser>();
     const roles = ref<any>();
     const permissions = ref<any>();
-    const accessToken = ref<string>();
-    const isLoged = computed(() => accessToken.value && accessToken.value.length > 0);
-
+    //@ts-ignore
+    const accessToken = ref<any>(window.$userToken);
+    const authTokenInfos = ref<AuthToken|null>();
+    const isLoged = computed(() =>accessToken.value && accessToken.value.length > 0);
+    //@ts-ignore
     const logout = async () => {
         HTTP.post(window.$modulesUrls.ssoServerLogoutUrl).then(() => {
             accessToken.value = undefined;
@@ -20,8 +29,22 @@ export const useAuthStore = defineStore('authStore', () => {
             // window.location.href = SSOServerLoginUrl;
         })
     }
+    const tokenIsExpire = computed(() => {
+        const now = Date.now() / 1000;
+        if (authTokenInfos.value?.expires_in && now > authTokenInfos.value?.expires_in) {
+            return false;
+        }
+        return true;
+    })
     const loadUser = async () => {
         user.value = (await HTTP.get(window.$modulesUrls.ssoServerUserInfoUrl)).data.user;
+    }
+    const setAccessToken = (tokenData: any) => {
+        accessToken.value = tokenData.access_token;
+        authTokenInfos.value = tokenData;
+    }
+    const setUser = (userData: any) => {
+        user.value = userData;
     }
 
     return {
@@ -32,10 +55,14 @@ export const useAuthStore = defineStore('authStore', () => {
         roles,
         logout,
         loadUser,
+        setUser,
+        setAccessToken,
+        tokenIsExpire,
+        authTokenInfos,
     }
 }, {
     persist: {
         key: 'authStore',
-        pick: ['accessToken', 'user', 'roles', 'permissions']
+        pick: ['accessToken','authTokenInfos', 'user', 'roles', 'permissions']
     }
 })
