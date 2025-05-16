@@ -8,7 +8,6 @@
                 <h2 class="text-lg font-bold">
                     Sélectionner des Contacts
                 </h2>
-
                 <XIcon class="size-6 text-gray-400 hover:text-primary cursor-pointer absolute top-0 right-0"
                     @click="closeModal" />
             </div>
