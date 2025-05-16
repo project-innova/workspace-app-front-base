@@ -7,7 +7,7 @@
         <div class="flex justify-end gap-3 w-35">
             <component :is="$route.meta.actions" />
             <NotificationModal />
-            <a v-if="authStore.user" href="" class="inline-flex items-center justify-center overflow-hidden size-10">
+            <a v-if="authStore.user" :href="`${$modulesUrls.dashboard}/mon-compte`" class="inline-flex items-center justify-center overflow-hidden size-10">
                 <img class="object-cover rounded-lg" :src="authStore.user?.profile?.avatar"
                     :alt="authStore.user?.profile?.full_name" />
             </a>

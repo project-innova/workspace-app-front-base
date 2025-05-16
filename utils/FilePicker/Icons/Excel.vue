@@ -1,5 +1,5 @@
 <template>
-    <svg :class="class" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg :class="$attrs.class" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="8" y="2" width="24" height="28" rx="2" fill="#2FB776" />
         <path d="M8 23H32V28C32 29.1046 31.1046 30 30 30H10C8.89543 30 8 29.1046 8 28V23Z"
             fill="url(#paint0_linear_87_7712)" />
@@ -28,10 +28,5 @@
     </svg>
 </template>
 <script setup lang="ts">
-defineProps({
-    class: {
-        type: String,
-        default: "w-32"
-    }
-})
+
 </script>
