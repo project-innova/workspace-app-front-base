@@ -5,7 +5,7 @@
 </template>
 <script setup lang="ts">
 const props = withDefaults(defineProps<{
-    width: string
+    width?: string
 }>(), {
     width: '100%'
 })
