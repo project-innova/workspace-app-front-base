@@ -24,8 +24,9 @@ const toogleMenu = (event: MouseEvent) => {
 
 };
 
-const openUrl = (url: string) => {
-    window.open(url, '_blank')
+const openUrl = (notif: any) => {
+    notificationStore.markAsRead(notif.id)
+    window.open(notif.url, '_blank')
 }
 
 onMounted(async () => {
@@ -107,7 +108,7 @@ onMounted(async () => {
                             </button>
                         </div>
                         <div class="flex gap-3 mt-2" v-else-if="notification.url">
-                            <button class="app-btn small success" @click="openUrl(notification.url)">
+                            <button class="app-btn small success" @click="openUrl(notification)">
                                 <span>Ouvrir</span>
                             </button>
                         </div>
