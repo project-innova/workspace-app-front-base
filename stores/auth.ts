@@ -17,8 +17,8 @@ export const useAuthStore = defineStore('authStore', () => {
     const permissions = ref<any>();
     //@ts-ignore
     const accessToken = ref<any>(window.$userToken);
-    const authTokenInfos = ref<AuthToken|null>();
-    const isLoged = computed(() =>accessToken.value && accessToken.value.length > 0);
+    const authTokenInfos = ref<AuthToken | null>();
+    const isLoged = computed(() => accessToken.value && accessToken.value.length > 0);
     //@ts-ignore
     const logout = async () => {
         HTTP.post(window.$modulesUrls.ssoServerLogoutUrl).then(() => {
@@ -63,6 +63,6 @@ export const useAuthStore = defineStore('authStore', () => {
 }, {
     persist: {
         key: 'authStore',
-        pick: ['accessToken','authTokenInfos', 'user', 'roles', 'permissions']
+        pick: ['accessToken', 'authTokenInfos', 'roles', 'permissions']
     }
 })

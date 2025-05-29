@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col " @keydown.stop="">
         <label v-if="label" :for="id" class="block text-sm font-bold"> {{ label
-            }} </label>
+        }} <span class="text-red-500 ml-1" v-if="required">*</span></label>
         <div class="flex rounded-lg outline-0 ring-primary bg-body items-center gap-3"
             :class="[inputContainerClass, { 'py-2 gap-2 px-2': size === 'sm', 'py-3 px-3': size == 'md', 'py-4 px-4': size == 'lg' }]">
             <template v-if="type == 'textarea'">
@@ -11,7 +11,7 @@
             </template>
             <template v-else>
                 <slot name="prefix" />
-                <input :id="id" v-model="model" :type="type"
+                <input :id="id" v-model="model" :type="type" :name="name"
                     class="focus:outline-none w-full outline-0 ring-0 bg-transparent" :placeholder="placeholder"
                     :readonly="readonly" />
                 <slot name="surfix" />
@@ -32,6 +32,7 @@ withDefaults(defineProps<{
     id?: string,
     name?: string,
     readonly?: boolean,
+    required?: boolean,
     inputContainerClass?: string,
     row?: number,
     size?: 'sm' | 'md' | 'lg',
