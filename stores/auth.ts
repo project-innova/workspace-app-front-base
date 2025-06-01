@@ -16,7 +16,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const roles = ref<any>();
     const permissions = ref<any>();
     //@ts-ignore
-    const accessTokenSaved = ref<any>(window.$userToken);
+    const accessTokenSaved = ref<any>(null);
     const accessToken = computed(() => {
         return window.$userToken ?? accessTokenSaved.value
     });
