@@ -2,8 +2,8 @@
     <div class="">
         <label v-if="label" class="text-sm mb-2">{{ label }}</label>
         <div class="border border-secondary-100! rounded-lg">
-            <div id="toolBar" class="rounded-lg  p-2 flex gap-1 border-none! border-b! border-secondary-100!">
-                <div class="flex gap-2 items-center">
+            <div id="toolBar" class="rounded-lg p-2 flex flex-wrap gap-1 border-none! border-b! border-secondary-100!">
+                <div class="flex items-center">
                     <button class="ql-undo" v-tooltip.top="'Annuler'"></button>
                     <button class="ql-redo" v-tooltip.top="'Rétablir'"></button>
                 </div>
@@ -26,30 +26,29 @@
                         </select>
                     </div>
                 </div>
-                <div class="flex gap-2 items-center">
+                <div class="flex items-center">
                     <button class="ql-bold" v-tooltip.top="'Gras'"></button>
                     <button class="ql-italic" v-tooltip.top="'Italique'"></button>
                     <button class="ql-underline" v-tooltip.top="'Souligné'"></button>
                     <button class="ql-strike" v-tooltip.top="'Barré'"></button>
-                    <button class="ql-Link" v-tooltip.top="'Lien'"></button>
+                    <!-- <button class="ql-Link" v-tooltip.top="'Lien'"></button> -->
                 </div>
-                <div class="flex gap-2 items-center">
+                <div class="flex items-center">
                     <button class="ql-list" v-tooltip.top="'Liste ordonnée'" value="ordered"></button>
                     <button class="ql-list" v-tooltip.top="'Liste non ordonnée'" value="bullet"></button>
-                    <button class="ql-indent" v-tooltip.top="'Indenter'"></button>
-                    <button class="ql-indent" v-tooltip.top="'Désindenter'"></button>
+                    <!-- <button class="ql-indent" v-tooltip.top="'Indenter'"></button>
+                    <button class="ql-indent" v-tooltip.top="'Désindenter'"></button> -->
                 </div>
-                <div class="flex gap-2 items-center">
-                    <button class="ql-align" v-tooltip.top="'Aligner à gauche'" value="left"></button>
+                <div class="flex items-center">
+                    <button class="ql-align" v-tooltip.top="'Aligner à gauche'"></button>
                     <button class="ql-align" v-tooltip.top="'Aligner au centre'" value="center"></button>
                     <button class="ql-align" v-tooltip.top="'Aligner à droite'" value="right"></button>
                     <button class="ql-align" v-tooltip.top="'Justifier'" value="justify"></button>
-
                 </div>
 
                 <button class="ql-clean" v-tooltip.top="'Effacer tout'"></button>
             </div>
-            <div id="ql-editor" class=" border-none! bg-secondary-100">
+            <div id="ql-editor" class="border-none! bg-secondary-100" :style="`height:${height};`">
 
             </div>
         </div>
@@ -68,6 +67,7 @@ const props = defineProps<{
     label?: string;
     modelValue?: string;
     disabled?: boolean;
+    height?: string
 }>();
 const emit = defineEmits(['update:modelValue']);
 
@@ -80,7 +80,7 @@ onMounted(() => {
         quill.value = new Quill('#ql-editor', {
             modules: {
                 toolbar: {
-                    // container: '#toolBar',
+                    container: '#toolBar',
                     handlers: [
                         // ['undo', 'redo', 'font', 'indent', 'clean', 'strike', 'underline', 'italic', 'bold', 'link', 'list', { align: [] }],
                         [{ header: [1, 2, false] }],

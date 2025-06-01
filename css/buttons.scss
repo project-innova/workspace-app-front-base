@@ -10,8 +10,8 @@
     }
 
     &.active {
-        background-color: var(--bg-color);
-        color: var(--color-primary);
+        background-color: var(--color-primary);
+        color: var(--color-white);
     }
 
     &.filled {
@@ -64,9 +64,10 @@
         @apply bg-primary/10 text-primary hover:bg-primary/20;
 
         &.filled {
-            @apply bg-primary text-white hover:bg-primary-hover;
+            @apply bg-primary text-white hover:bg-primary-600;
         }
     }
+
     &.white {
         @apply bg-white hover:bg-white hover:text-primary border text-gray-500;
 
