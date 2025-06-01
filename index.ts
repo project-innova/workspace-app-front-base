@@ -19,6 +19,7 @@ import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import Tooltip from 'primevue/tooltip';
 import PrimeBtn from 'primevue/button';
+import Primecard from 'primevue/card';
 import PrimeTextInput from 'primevue/inputtext';
 import PrimeMenu from 'primevue/menu';
 import PrimeSelect from 'primevue/select';
@@ -37,17 +38,17 @@ export default {
             semantic: {
 
                 primary: {
-                    '50': '#fffaec',
-                    '100': '#fff4d3',
-                    '200': '#ffe6a5',
-                    '300': '#ffd26d',
-                    '400': '#ffb332',
-                    '500': '#ff9a0a',
-                    '600': '#ff8200',
-                    '700': '#cc5f02',
-                    '800': '#a1490b',
-                    '900': '#823e0c',
-                    '950': '#461d04',
+                    '50': '#fef8ee',
+                    '100': '#fdefd7',
+                    '200': '#fbdaad',
+                    '300': '#f8c079',
+                    '400': '#f39b44',
+                    '500': '#f07e1f',
+                    '600': '#d96014',
+                    '700': '#bb4b13',
+                    '800': '#953c17',
+                    '900': '#783316',
+                    '950': '#411709',
                 },
                 secondary: {
                     '50': '#f5f7f8',
@@ -76,6 +77,7 @@ export default {
                 }
             }
         });
+        app.component('Primecard', Primecard);
         app.component('PrimeBtn', PrimeBtn);
         app.component('PrimeMenu', PrimeMenu);
         app.component('PrimeTextInput', PrimeTextInput);

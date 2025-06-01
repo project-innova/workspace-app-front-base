@@ -11,6 +11,7 @@ import PrimeMenu from 'primevue/menu';
 import PrimeSelect from 'primevue/select';
 import PrimeMultiSelect from 'primevue/multiselect';
 import PrimeBtn from 'primevue/button';
+import Primecard from 'primevue/card';
 export { }
 declare global {
     interface Window {
@@ -32,6 +33,7 @@ declare module 'vue' {
     export interface GlobalComponents {
         AppButton: typeof AppButton,
         TextField: typeof TextField,
+        Primecard: typeof Primecard,
         PrimeBtn: typeof PrimeBtn,
         PrimeTextInput: typeof PrimeTextInput,
         PrimeMenu: typeof PrimeMenu,

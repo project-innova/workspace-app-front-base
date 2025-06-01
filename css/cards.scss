@@ -1,5 +1,6 @@
 .app-card {
     @apply bg-white rounded-lg border p-3;
+    border-color: var(--color-secondary-100)
 }
 
 .file-explorer-item {
