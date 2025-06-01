@@ -38,11 +38,12 @@
                                 <span v-if="item.description" class="text-sm text-gray-400"
                                     v-html="item.description"></span>
                                 <span v-else-if="index == 'file'" class="text-sm text-gray-400">
-                                    Type {{ item.metadata.infos.type }} , Taille
+                                    Date {{ item.metadata.created_since }}, Type {{ item.metadata.infos.type }}, Taille
                                     {{ formatFileSize(item.metadata.infos.size) }}
                                 </span>
                                 <span v-else-if="index == 'file'" class="text-sm text-gray-400">
-                                    Sous-dossiers {{ item.metadata.infos.children_count }}
+                                    Date {{ item.metadata.created_since }}, Sous-dossiers {{
+                                        item.metadata.infos.children_count }}
                                 </span>
                             </a>
                         </li>
