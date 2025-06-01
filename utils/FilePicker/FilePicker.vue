@@ -23,7 +23,7 @@
             <ResizableTable id="media-table" :columns="columns" :data-collection="medias.items"
                 :loading="medias.loading" @selected="onSelected" @open="onOpen"
                 tr-class="border-y-1 border-dashed border-transparent"
-                :item-class-condition="(item:any, index:number) => selectedFiles.includes(item.id) ? '!bg-primary/10 !text-primary' : ''">
+                :item-class-condition="(item: any, index: number) => selectedFiles.includes(item.id) ? 'bg-primary/10! text-primary!' : ''">
                 <template #cell-icon="{ item }">
                     <span class="w-10 h-10 flex-center rounded-full" :class="{}">
                         <span v-if="item.type != 'FILE'" class="text-2xl text-gray-500">

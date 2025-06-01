@@ -1,14 +1,7 @@
 <template>
-  <VueAwesomePaginate
-    :total-items="totalItems"
-    :items-per-page="itemsPerPage"
-    :max-pages-shown="5"
-    :modelValue="modelValue"
-    @update:modelValue="$emit('update:modelValue', $event)"
-    :show-ending-buttons="true"
-    :show-breakpoint-buttons="false"
-    @click="$emit('paginate', $event)"
-  >
+  <VueAwesomePaginate :total-items="totalItems" :items-per-page="itemsPerPage" :max-pages-shown="5"
+    :modelValue="modelValue" @update:modelValue="$emit('update:modelValue', $event)" :show-ending-buttons="true"
+    :show-breakpoint-buttons="false" @click="$emit('paginate', $event)">
     <template #prev-button>
       <ChevronLeftIcon />
     </template>
@@ -49,7 +42,7 @@ defineProps({
 }
 
 .paginate-buttons {
-  @apply rounded-lg;
+  border-radius: var(--p-select-option-border-radius);
   height: 30px;
   min-width: 30px;
   padding: 0px 5px;
@@ -79,8 +72,8 @@ defineProps({
 }
 
 .paginate-buttons {
+
   &.back-button,
-  &.next-button {
-  }
+  &.next-button {}
 }
 </style>
