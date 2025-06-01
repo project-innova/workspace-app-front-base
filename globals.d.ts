@@ -5,7 +5,12 @@ import type { useToast } from './utils/plugins/toast'
 import { io } from 'socket.io-client';
 import type { DefaultEventsMap, Socket } from 'socket.io';
 import type { DgiwsModules } from './plugin/types';
-
+import PrimeBtn from 'primevue/button';
+import PrimeTextInput from 'primevue/inputtext';
+import PrimeMenu from 'primevue/menu';
+import PrimeSelect from 'primevue/select';
+import PrimeMultiSelect from 'primevue/multiselect';
+import PrimeBtn from 'primevue/button';
 export { }
 declare global {
     interface Window {
@@ -13,7 +18,7 @@ declare global {
         $socket: Socket
         $userToken: String
         $modulesUrls: DgiwsModules
-        $drawerPages: string[] | '*'| '!*'
+        $drawerPages: string[] | '*' | '!*'
         $url: (path: string) => string
     }
     const $useToast: typeof useToast
@@ -26,7 +31,12 @@ declare global {
 declare module 'vue' {
     export interface GlobalComponents {
         AppButton: typeof AppButton,
-        TextField: typeof TextField
+        TextField: typeof TextField,
+        PrimeBtn: typeof PrimeBtn,
+        PrimeTextInput: typeof PrimeTextInput,
+        PrimeMenu: typeof PrimeMenu,
+        PrimeSelect: typeof PrimeSelect,
+        PrimeMultiSelect: typeof PrimeMultiSelect,
     }
     export interface ComponentCustomProperties {
         $appContants: typeof appContants,
@@ -40,7 +50,7 @@ declare module 'vue' {
         }
         $userTrouteoken: String
         $modulesUrls: DgiwsModules
-        $drawerPages: string[] | '*'| '!*'
+        $drawerPages: string[] | '*' | '!*'
 
         $url: (path: string) => string
     }

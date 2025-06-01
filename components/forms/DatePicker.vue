@@ -34,7 +34,7 @@ const props = withDefaults(
 const model = defineModel<any>()
 const config = {
     wrap: false,
-    altFormat: props.displayFormat?props.displayFormat:(props.format?props.format:'Y-m-d'),
+    altFormat: props.displayFormat ? props.displayFormat : (props.format ? props.format : 'Y-m-d'),
     altInput: true,
     dateFormat: props.format,
     minDate: props.minDate,
@@ -58,7 +58,7 @@ const emit = defineEmits(['update:modelValue'])
     }
 
     &.selected {
-        @apply border-primary bg-primary hover:border-primary hover:bg-primary-hover text-white;
+        @apply border-primary bg-primary hover:border-primary hover:bg-primary-600 text-white;
 
         &.startRange {
             @apply rounded-l-md;

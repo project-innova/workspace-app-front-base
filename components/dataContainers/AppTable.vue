@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white border rouned-md app-card max-h-full overflow-y-auto p-0">
+    <div class="bg-white border border-secondary-100 rouned-md app-card max-h-full overflow-y-auto p-0">
         <div v-if="$slots.header" class="p-3">
             <slot name="header"></slot>
         </div>
@@ -33,7 +33,8 @@
                         </tr>
                     </template>
                     <template v-else v-for="(item, index) in dataCollection">
-                        <tr class="hover:bg-gray-100 rounded-md transition-all duration-300 select-none cursor-pointer" @click="$emit('selected',{item, index})" @dblclick="$emit('open',{item, index})">
+                        <tr class="hover:bg-gray-100 rounded-md transition-all duration-300 select-none cursor-pointer"
+                            @click="$emit('selected', { item, index })" @dblclick="$emit('open', { item, index })">
                             <td v-if="multiple" class="px-2">
                                 <!-- <input type="checkbox" :value="item[primaryKay]"
                               :checked="selected.includes(item[primaryKay])"
@@ -96,7 +97,7 @@ const props = withDefaults(
     },
 )
 
-const emit = defineEmits(['sort', 'update:selected','selected','open'])
+const emit = defineEmits(['sort', 'update:selected', 'selected', 'open'])
 
 const selectedItems = ref<any[]>(props.selected ?? [])
 
