@@ -1,6 +1,6 @@
 <template>
     <header class="grid grid-cols-3 w-full gap-2 p-2 items-center bg-white rounded-lg border border-secondary-100">
-        <div class="flex items-center gap-2 w-35">
+        <div class="flex items-center gap-2 w-72">
             <component :is="$route.meta.title" />
         </div>
         <SpotLight />

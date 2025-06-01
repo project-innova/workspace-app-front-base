@@ -1,79 +1,83 @@
 <template>
-    <div class="bg-white rounded-lg border max-h-full overflow-y-auto scrollbar-hide" ref="tableContainer">
-        <div class="">
-            <div v-if="$slots.header" class="mb-5">
-                <slot name="header"></slot>
-            </div>
-        </div>
-        <table ref="tableHead" class="table-fixed w-full sticky top-0 bg-white z-10">
-            <th v-for="(column, col_index) in columns" :key="column.key" class="sticky top-0 z-3 border-b bg-white"
-                :data-col-id="column.key" :class="thClass"
-                :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
-                <div class="relative py-2 px-2 group">
-                    <span class="text-sm text-gray-600 font-extrabold flex text-nowrap overflow-hidden items-center"
-                        :class="{
-                            'justify-start': column.align === 'left',
-                            'justify-end': column.align === 'right',
-                            'justify-center': column.align === 'center',
-                        }">
-                        <slot :name="`head-${column.key}`">
-                            <span class=" line-clamp-1">{{ column.label }}</span>
-                        </slot>
-                    </span>
-                    <span
-                        class="h-full opacity-0 group-hover:opacity-100 right-0 top-0 border-l absolute cursor-ew-resize select-none"
-                        v-if="col_index + 1 != columns.length" :col-resizer="col_index"
-                        :data-col-id="column.key"></span>
+    <PrimeCard class="border border-secondary-100! shadow-none! max-h-full overflow-y-auto scrollbar-hide"
+        ref="tableContainer">
+        <template #content>
+            <div class="">
+                <div v-if="$slots.header" class="mb-5">
+                    <slot name="header"></slot>
                 </div>
-            </th>
-        </table>
-        <table class="table-fixed w-full">
-            <template v-for="(item, index) in dataCollection">
-                <tr draggable="true" :id="`table-data-item-${item.id}`"
-                    class="hover:bg-primary/10 hover:text-primary transition-all duration-300 select-none cursor-pointer"
-                    :class="[trClass,itemClassCondition?itemClassCondition!(item,index):'']"
-                    @click="$emit('selected', { item, index })" @dblclick="$emit('open', { item, index })"
-                    @dragstart="onDragStart($event, item, `table-data-item-${item.id}`)"
-                    @dragover="onDragOver($event, item, `table-data-item-${item.id}`)"
-                    @drop="onDrop($event, item, `table-data-item-${item.id}`)"
-                    @dragleave="onDragLeave($event, `table-data-item-${item.id}`)"
-                    @dragend="onDragEnd($event, `table-data-item-${item.id}`)">
-                    <td v-if="multiple" class="px-2 pointer-events-none">
-                        <!-- <input type="checkbox" :value="item[primaryKay]"
+            </div>
+            <table ref="tableHead" class="table-fixed w-full sticky top-0 bg-white z-10">
+                <th v-for="(column, col_index) in columns" :key="column.key"
+                    class="sticky top-0 z-3 border-b border-secondary-100! bg-white" :data-col-id="column.key"
+                    :class="thClass"
+                    :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
+                    <div class="relative py-2 px-2 group">
+                        <span class="text-sm text-gray-600 font-extrabold flex text-nowrap overflow-hidden items-center"
+                            :class="{
+                                'justify-start': column.align === 'left',
+                                'justify-end': column.align === 'right',
+                                'justify-center': column.align === 'center',
+                            }">
+                            <slot :name="`head-${column.key}`">
+                                <span class=" line-clamp-1">{{ column.label }}</span>
+                            </slot>
+                        </span>
+                        <span
+                            class="h-full opacity-0 group-hover:opacity-100 right-0 top-0 border-l border-secondary-100! absolute cursor-ew-resize select-none"
+                            v-if="col_index + 1 != columns.length" :col-resizer="col_index"
+                            :data-col-id="column.key"></span>
+                    </div>
+                </th>
+            </table>
+            <table class="table-fixed w-full">
+                <template v-for="(item, index) in dataCollection">
+                    <tr draggable="true" :id="`table-data-item-${item.id}`"
+                        class="hover:bg-primary/10 hover:text-primary transition-all duration-300 select-none cursor-pointer"
+                        :class="[trClass, itemClassCondition ? itemClassCondition!(item, index) : '']"
+                        @click="$emit('selected', { item, index })" @dblclick="$emit('open', { item, index })"
+                        @dragstart="onDragStart($event, item, `table-data-item-${item.id}`)"
+                        @dragover="onDragOver($event, item, `table-data-item-${item.id}`)"
+                        @drop="onDrop($event, item, `table-data-item-${item.id}`)"
+                        @dragleave="onDragLeave($event, `table-data-item-${item.id}`)"
+                        @dragend="onDragEnd($event, `table-data-item-${item.id}`)">
+                        <td v-if="multiple" class="px-2 pointer-events-none">
+                            <!-- <input type="checkbox" :value="item[primaryKay]"
                               :checked="selected.includes(item[primaryKay])"
                               @change="emit('update:selected', selected)" /> -->
-                    </td>
-                    <td v-for="(column, col_index) in columns" :key="column.key" class="" :data-col-id="column.key"
-                        :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
-                        <div class="relative py-2 px-2">
-                            <span
-                                class="text-sm text-gray-800 flex pointer-events-all overflow-y-hidden items-center line-clamp-1"
-                                :class="{
-                                    'justify-start': column.align === 'left',
-                                    'justify-end': column.align === 'right',
-                                    'justify-center': column.align === 'center',
-                                }">
-                                <slot :name="`cell-${column.key}`" :item="item" :column="column" :index="index">
-                                    {{ item[column.key] }}
-                                </slot>
-                            </span>
-                        </div>
-                    </td>
-                </tr>
-            </template>
-            <template v-if="loading">
-                <tr v-for="i in 10" :key="i">
-                    <td v-for="column in columns" :key="column.key" :data-col-id="column.key" class="py-1 px-2"
-                        :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
-                        <TextPlacholder width="100%" />
-                    </td>
-                </tr>
-            </template>
-        </table>
-        <div v-if="$slots.footer" class="mt-2">
-            <slot name="footer"></slot>
-        </div>
-    </div>
+                        </td>
+                        <td v-for="(column, col_index) in columns" :key="column.key" class="" :data-col-id="column.key"
+                            :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
+                            <div class="relative py-2 px-2">
+                                <span
+                                    class="text-sm text-gray-800 flex pointer-events-all overflow-y-hidden items-center line-clamp-1"
+                                    :class="{
+                                        'justify-start': column.align === 'left',
+                                        'justify-end': column.align === 'right',
+                                        'justify-center': column.align === 'center',
+                                    }">
+                                    <slot :name="`cell-${column.key}`" :item="item" :column="column" :index="index">
+                                        {{ item[column.key] }}
+                                    </slot>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
+                <template v-if="loading">
+                    <tr v-for="i in 10" :key="i">
+                        <td v-for="column in columns" :key="column.key" :data-col-id="column.key" class="py-1 px-2"
+                            :style="`width:${tableStore.getColumnSize(id, column.key, column.width ?? 150)}px`">
+                            <TextPlacholder width="100%" />
+                        </td>
+                    </tr>
+                </template>
+            </table>
+            <div v-if="$slots.footer" class="mt-2">
+                <slot name="footer"></slot>
+            </div>
+        </template>
+    </PrimeCard>
 
 </template>
 <script setup lang="ts">
@@ -94,8 +98,8 @@ const props = withDefaults(
         cellClass?: string
         trClass?: string
         thClass?: string,
-        itemShowCondition?: (item:any,index:number)=>boolean,
-        itemClassCondition?: (item:any,index:number)=>string,
+        itemShowCondition?: (item: any, index: number) => boolean,
+        itemClassCondition?: (item: any, index: number) => string,
         selected?: string[] | number[]
         dataCollection: any[]
         loading?: boolean

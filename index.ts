@@ -19,7 +19,7 @@ import Aura from '@primeuix/themes/aura';
 import { definePreset } from '@primeuix/themes';
 import Tooltip from 'primevue/tooltip';
 import PrimeBtn from 'primevue/button';
-import Primecard from 'primevue/card';
+import PrimeCard from 'primevue/card';
 import PrimeTextInput from 'primevue/inputtext';
 import PrimeMenu from 'primevue/menu';
 import PrimeSelect from 'primevue/select';
@@ -77,7 +77,7 @@ export default {
                 }
             }
         });
-        app.component('Primecard', Primecard);
+        app.component('PrimeCard', PrimeCard);
         app.component('PrimeBtn', PrimeBtn);
         app.component('PrimeMenu', PrimeMenu);
         app.component('PrimeTextInput', PrimeTextInput);

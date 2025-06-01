@@ -32,11 +32,18 @@
                     </Divider>
                     <ul class="w-full">
                         <li v-for="item in result">
-                            <a class="flex items-center w-full gap-2 p-2 rounded-lg cursor-pointer hover:bg-primary/10"
+                            <a class="flex  flex-col w-full  p-2 rounded-lg cursor-pointer hover:bg-primary/10"
                                 :href="item.url">
                                 <span class="text-sm text-gray-500" v-html="item.label"></span>
                                 <span v-if="item.description" class="text-sm text-gray-400"
                                     v-html="item.description"></span>
+                                <span v-else-if="index == 'file'" class="text-sm text-gray-400">
+                                    Type {{ item.metadata.infos.type }} , Taille
+                                    {{ formatFileSize(item.metadata.infos.size) }}
+                                </span>
+                                <span v-else-if="index == 'file'" class="text-sm text-gray-400">
+                                    Sous-dossiers {{ item.metadata.infos.children_count }}
+                                </span>
                             </a>
                         </li>
                     </ul>
@@ -63,7 +70,14 @@
                     <span>Naviguer</span>
                 </span>
             </div>
-            <div class=""></div>
+            <div class="text-xs">
+                <span class="flex-center gap-2">
+                    <span class="flex-center gap-1 bg-secondary-100 rounded p-1 h  -5">
+                        Esc
+                    </span>
+                    <span>Fermer</span>
+                </span>
+            </div>
         </div>
     </HeadlessModal>
 </template>
@@ -73,22 +87,24 @@ import HeadlessModal from "../../components/dialogs/HeadlessModal.vue";
 import { useSpotLightStore } from "./store";
 import { ArrowDown, ArrowDownLeft, ArrowUp, CornerDownLeft, FileIcon, FolderIcon, SearchIcon, UserIcon, XIcon } from "lucide-vue-next";
 import Divider from "primevue/divider";
+import { formatFileSize } from "../helpers";
 const spotLightStore = useSpotLightStore();
 const searchFieldRef = ref()
 onMounted(() => {
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
             e.preventDefault(); // Empêche le comportement par défaut
-            if (spotLightStore.show) {
-                spotLightStore.show = false;
-            } else {
-
+            if (!spotLightStore.show) {
                 spotLightStore.show = true;
                 setTimeout(() => {
                     const inp = document.getElementById('global-search-field');
                     inp?.focus();
                 }, 500)
-
+            }
+        }
+        else if (e.key == 'Escape') {
+            if (spotLightStore.show) {
+                spotLightStore.show = false;
             }
         }
     })
@@ -101,5 +117,7 @@ const types: any = {
     drive: 'Fichiers et dossier',
     team: 'Équipes',
     event: 'Évenements',
+    folder: 'Dossiers',
+    file: 'Fichiers',
 }
 </script>
