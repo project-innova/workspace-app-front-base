@@ -15,47 +15,47 @@
                 </button>
                 <a :href="$modulesUrls.dashboard"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.dashboard ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.dashboard ?? '') }">
                     <HomeIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.drive"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.drive ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.drive ?? '') }">
                     <HardDriveIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.chat"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.chat ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.chat ?? '') }">
                     <MessageSquareIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.meet"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.meet ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.meet ?? '') }">
                     <VideoIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.team"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.team ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.team ?? '') }">
                     <UsersIcon class="size-6" />
                 </a>
                 <a :href="$modulesUrls.contact"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.contact ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.contact ?? '') }">
                     <ContactIcon class="size-6" />
                 </a>
                 <a :href="$modulesUrls.ai"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.ai ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.ai ?? '') }">
                     <BotIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.mail"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.mail ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.mail ?? '') }">
                     <MailIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.calendar"
                     class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.calendar ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.calendar ?? '') }">
                     <CalendarIcon class="size-6" stroke-width="1.5" />
                 </a>
 
@@ -88,9 +88,9 @@ import ConfirmationModal from '../../components/dialogs/ConfirmationModal.vue'
 
 import { useAuthStore } from "../../stores/auth";
 import { useSideBar } from '../../stores/sidebar';
-import { handleConfirmation } from '../../utils/helpers'
+import { handleConfirmation, getUrlDomain, getCurrentDomain, isCurrentDomain } from '../../utils/helpers'
 import { BotIcon, CalendarIcon, ChevronLeftIcon, ContactIcon, HardDriveIcon, HomeIcon, LogOutIcon, MailIcon, MessageSquareIcon, UsersIcon, VideoIcon } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref } from 'vue';
 const authStore = useAuthStore()
 const sideStore = useSideBar()
 
@@ -102,13 +102,7 @@ const onLogoutResponse = (resp: boolean) => {
     }
 }
 
-const getCurrentDomain = () => (
-    getUrlDomain(document.location.href)
-)
 
-const getUrlDomain = (url: string) => (
-    url.match(/http[s]?:\/\/([^\/]+)/)?.[1] || ''
-)
 const confirmationModalFiedls = {
     title: 'Demande de confirmation',
     message: 'Etes vous sur de cette action',
