@@ -8,53 +8,43 @@
             <div class="flex flex-col items-center gap-3 h-full">
                 <button
                     v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))"
-                    @click="sideStore.toggleShow"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200">
+                    @click="sideStore.toggleShow" class="aside-nav-btn">
                     <ChevronLeftIcon class="size-6 transition-transform" :class="{ 'rotate-180': sideStore.show }"
                         stroke-width="1.5" />
                 </button>
-                <a :href="$modulesUrls.dashboard"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.dashboard" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.dashboard ?? '') }">
                     <HomeIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.drive"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.drive" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.drive ?? '') }">
                     <HardDriveIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.chat"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.chat" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.chat ?? '') }">
                     <MessageSquareIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.meet"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.meet" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.meet ?? '') }">
                     <VideoIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.team"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.team" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.team ?? '') }">
                     <UsersIcon class="size-6" />
                 </a>
-                <a :href="$modulesUrls.contact"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.contact" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.contact ?? '') }">
                     <ContactIcon class="size-6" />
                 </a>
-                <a :href="$modulesUrls.ai"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.ai" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.ai ?? '') }">
                     <BotIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.mail"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.mail" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.mail ?? '') }">
                     <MailIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.calendar"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
+                <a :href="$modulesUrls.calendar" class="aside-nav-btn"
                     :class="{ 'active': isCurrentDomain($modulesUrls.calendar ?? '') }">
                     <CalendarIcon class="size-6" stroke-width="1.5" />
                 </a>

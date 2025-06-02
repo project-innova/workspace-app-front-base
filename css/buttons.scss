@@ -1,17 +1,21 @@
 .app-icon-btn {
-    @apply p-2 w-10 h-10 flex justify-center items-center rounded-lg cursor-pointer transition duration-300 ease-in-out;
+    @apply p-2 size-10 flex justify-center items-center rounded-lg cursor-pointer transition duration-300 ease-in-out;
 
     &.small {
         @apply p-1 w-8 h-8;
     }
 
     &:hover {
-        background-color: var(--bg-color);
+        background-color: var(--color-secondary-200);
     }
 
     &.active {
         background-color: var(--color-primary);
         color: var(--color-white);
+
+        &:hover {
+            background-color: var(--color-primary-600);
+        }
     }
 
     &.filled {
@@ -24,6 +28,22 @@
 
         &:hover {
             background-color: var(--bg-color);
+        }
+    }
+}
+
+.aside-nav-btn {
+    @apply p-2 size-10 flex justify-center items-center rounded-lg cursor-pointer transition duration-300 ease-in-out;
+
+    &:hover {
+        @apply bg-secondary-200;
+    }
+
+    &.active {
+        @apply bg-primary text-white;
+
+        &:hover {
+            @apply bg-primary/80;
         }
     }
 }
