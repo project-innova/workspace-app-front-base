@@ -49,24 +49,4 @@ const config = {
 };
 const emit = defineEmits(['update:modelValue'])
 </script>
-<style lang="scss">
-.flatpickr-day {
-    @apply rounded-md;
-
-    &.today {
-        @apply border-primary
-    }
-
-    &.selected {
-        @apply border-primary bg-primary hover:border-primary hover:bg-primary-600 text-white;
-
-        &.startRange {
-            @apply rounded-l-md;
-        }
-
-        &.endRange {
-            @apply rounded-r-md;
-        }
-    }
-}
-</style>
+<style lang="scss"></style>

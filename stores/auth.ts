@@ -16,13 +16,16 @@ export const useAuthStore = defineStore('authStore', () => {
     const roles = ref<any>();
     const permissions = ref<any>();
     //@ts-ignore
-    const accessToken = ref<any>(window.$userToken);
+    const accessTokenSaved = ref<any>(null);
+    const accessToken = computed(() => {
+        return window.$userToken ?? accessTokenSaved.value
+    });
     const authTokenInfos = ref<AuthToken | null>();
     const isLoged = computed(() => accessToken.value && accessToken.value.length > 0);
     //@ts-ignore
     const logout = async () => {
         HTTP.post(window.$modulesUrls.ssoServerLogoutUrl).then(() => {
-            accessToken.value = undefined;
+            accessTokenSaved.value = undefined;
             user.value = undefined;
             roles.value = undefined;
             permissions.value = undefined;
@@ -40,7 +43,7 @@ export const useAuthStore = defineStore('authStore', () => {
         user.value = (await HTTP.get(window.$modulesUrls.ssoServerUserInfoUrl)).data.user;
     }
     const setAccessToken = (tokenData: any) => {
-        accessToken.value = tokenData.access_token;
+        accessTokenSaved.value = tokenData.access_token;
         authTokenInfos.value = tokenData;
     }
     const setUser = (userData: any) => {
@@ -63,6 +66,6 @@ export const useAuthStore = defineStore('authStore', () => {
 }, {
     persist: {
         key: 'authStore',
-        pick: ['accessToken', 'authTokenInfos', 'roles', 'permissions']
+        pick: ['accessTokenSaved', 'authTokenInfos', 'roles', 'permissions']
     }
 })

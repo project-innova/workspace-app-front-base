@@ -1,0 +1,42 @@
+.flatpickr-day {
+    @apply rounded-md;
+
+    &.today {
+        @apply border-primary
+    }
+
+    &.selected {
+        @apply border-primary bg-primary hover:border-primary hover:bg-primary-600 text-white;
+
+        &.startRange {
+            @apply rounded-l-md;
+        }
+
+        &.endRange {
+            @apply rounded-r-md;
+        }
+    }
+}
+
+.app-menu-popover {
+    ul {
+        @apply p-1;
+
+    }
+
+    li {
+        @apply flex items-center gap-2 px-3 py-2 text-sm rounded-lg text-gray-500 cursor-pointer hover:bg-primary/10 hover:text-primary;
+
+        &.active {
+            @apply bg-primary/20 text-primary;
+        }
+    }
+}
+
+.dropzone {
+    @apply h-12 gap-3 w-full flex items-center justify-center cursor-pointer bg-gray-50 text-sm transition-all sticky bottom-0;
+}
+
+.dropzone-hover {
+    @apply text-primary;
+}
