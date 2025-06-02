@@ -49,7 +49,7 @@
                     <ul class="w-full">
                         <li v-for="item in result">
                             <button :data-spotlight-index="item.index"
-                                class="flex spot-ligth-item flex-col w-full p-2 rounded-lg cursor-pointer hover:bg-primary/10"
+                                class="flex items-start spot-ligth-item flex-col w-full p-2 rounded-lg cursor-pointer hover:bg-primary/10"
                                 @click="handleSeletedItem(item)">
                                 <span class="text-sm text-gray-500" v-html="item.label"></span>
 
@@ -195,18 +195,17 @@ onMounted(() => {
             console.log('Selected key', e.key);
         }
 
-
     })
 
 })
 
 const handleSeletedItem = (selectedItem: any) => {
-    console.log('Selected item', selectedItem);
     if (isCurrentDomain(selectedItem.url)) {
-        router.push(selectedItem.url);
+        const path = new URL(selectedItem.url).pathname;
+        spotLightStore.show = false;
+        router.push(path);
     } else {
-        console.log("Check curent domain", isCurrentDomain(selectedItem.url));
-        // window.location.href = selectedItem.url;
+        window.location.href = selectedItem.url;
     }
 }
 
