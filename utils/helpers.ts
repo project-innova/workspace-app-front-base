@@ -35,9 +35,9 @@ const parseDate = (dateString: string, format: string): Date => {
 
     return new Date(dateParts.year, dateParts.month, dateParts.day, dateParts.hours, dateParts.minutes, dateParts.seconds);
 };
-const handleConfirmation = (option:{title:string,message:string,onConfirm:()=>void,onCancel:()=>void})=>{
-    const ev = new CustomEvent('show-confirmation',{
-        detail:option
+const handleConfirmation = (option: { title: string, message: string, onConfirm: () => void, onCancel: () => void }) => {
+    const ev = new CustomEvent('show-confirmation', {
+        detail: option
     });
     document.dispatchEvent(ev)
 }
@@ -50,4 +50,42 @@ const formatFileSize = (size: number) => {
     }
     return size.toFixed(2) + ' ' + units[unitIndex];
 }
-export { formatDate, parseDate,handleConfirmation,formatFileSize };
+const getCurrentDomain = () => (
+    getUrlDomain(document.location.href)
+)
+
+const getUrlDomain = (url: string) => (
+    url.match(/http[s]?:\/\/([^\/]+)/)?.[1] || ''
+)
+
+const isCurrentDomain = (url: string) => {
+    return isSameDomain(document.location.href, url)
+}
+
+
+const extractDomain = (url: string) => {
+    var domain = ''
+    try {
+        // Utilise l'objet URL natif pour extraire le hostname
+        domain = new URL(url, window.location.origin).hostname;
+    } catch (e) {
+        // Si l'URL n'est pas valide, retourne une chaîne vide
+        domain = '';
+    }
+    return domain;
+};
+/**
+ * Compare deux URLs pour vérifier si elles appartiennent au même domaine,
+ * même si elles contiennent des paramètres ou des chemins différents.
+ * @param url1 Première URL à comparer
+ * @param url2 Deuxième URL à comparer
+ * @returns true si les deux URLs ont le même domaine, false sinon
+ */
+const isSameDomain = (url1: string, url2: string): boolean => {
+
+    return extractDomain(url1) === extractDomain(url2);
+};
+
+// Pro tip : Utilisez cette fonction pour comparer les domaines lors de la gestion de redirections ou de vérifications de sécurité, 
+// même si les URLs contiennent des paramètres ou des chemins différents !
+export { formatDate, parseDate, handleConfirmation, formatFileSize, getCurrentDomain, getUrlDomain, isCurrentDomain, isSameDomain };
