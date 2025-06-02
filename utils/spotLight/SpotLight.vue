@@ -48,9 +48,9 @@
                     </Divider>
                     <ul class="w-full">
                         <li v-for="item in result">
-                            <a :data-spotlight-index="item.index"
+                            <button :data-spotlight-index="item.index"
                                 class="flex spot-ligth-item flex-col w-full p-2 rounded-lg cursor-pointer hover:bg-primary/10"
-                                :href="item.url">
+                                @click="handleSeletedItem(item)">
                                 <span class="text-sm text-gray-500" v-html="item.label"></span>
 
                                 <span v-if="index == 'file'" class="text-sm text-gray-400">
@@ -69,7 +69,7 @@
                                 </span>
                                 <span v-else-if="item.description" class="text-sm text-gray-400"
                                     v-html="item.description"></span>
-                            </a>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -118,8 +118,10 @@ import { fr } from 'date-fns/locale';
 import { isCurrentDomain } from '../../utils/helpers'
 import { useRouter } from "vue-router";
 
+const router = useRouter();
 const spotLightStore = useSpotLightStore();
 const searchFieldRef = ref()
+
 onMounted(() => {
     document.addEventListener('keydown', (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
@@ -188,13 +190,7 @@ onMounted(() => {
         }
         else if (spotLightStore.show && e.key === 'Enter' && spotLightStore.selectedIndex != null) {
             const selectedItem = spotLightStore.resultsItems[spotLightStore.selectedIndex];
-            console.log('Selected item', selectedItem);
-            if (isCurrentDomain(selectedItem.url)) {
-                useRouter().push(selectedItem.url);
-            } else {
-                console.log("Check curent domain", isCurrentDomain(selectedItem.url));
-                // window.location.href = selectedItem.url;
-            }
+            handleSeletedItem(selectedItem)
         } else if (spotLightStore.show) {
             console.log('Selected key', e.key);
         }
@@ -204,7 +200,15 @@ onMounted(() => {
 
 })
 
-
+const handleSeletedItem = (selectedItem: any) => {
+    console.log('Selected item', selectedItem);
+    if (isCurrentDomain(selectedItem.url)) {
+        router.push(selectedItem.url);
+    } else {
+        console.log("Check curent domain", isCurrentDomain(selectedItem.url));
+        // window.location.href = selectedItem.url;
+    }
+}
 
 const types: any = {
     meet: {
