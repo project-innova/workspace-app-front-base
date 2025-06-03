@@ -52,8 +52,11 @@ onMounted(async () => {
                 duration: 5000,
             }
         );
-    }
-    );
+    });
+    $socket.on('notification-read', async (notif: any) => {
+        const index = notificationStore.unreadNotifications.findIndex((ntf) => ntf.id == notif.data.id)
+        notificationStore.unreadNotifications[index].action_status == notif.data.action_status;
+    });
 });
 </script>
 
@@ -99,7 +102,7 @@ onMounted(async () => {
                             <button class="app-btn small success"
                                 @click="notificationStore.notifAction(true, notification.url, notification.item_id, notification.id)">
                                 <CheckIcon class="size-4" />
-                                <span>Repondre</span>
+                                <span>Accèpter</span>
                             </button>
                             <button class="app-btn small danger"
                                 @click="notificationStore.notifAction(false, notification.url, notification.item_id, notification.id)">
@@ -107,7 +110,7 @@ onMounted(async () => {
                                 <span>Refuser</span>
                             </button>
                         </div>
-                        <div class="flex gap-3 mt-2" v-else-if="notification.url">
+                        <div class="flex gap-3 mt-2" v-else-if="notification.link">
                             <button class="app-btn small success" @click="openUrl(notification)">
                                 <span>Ouvrir</span>
                             </button>

@@ -9,6 +9,7 @@ interface Notification {
     date: string,
     action_status: boolean | null,
     url: string | null,
+    link: string | null,
     item_id: string | null,
     type: string,
 }
