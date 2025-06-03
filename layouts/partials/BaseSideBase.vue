@@ -81,6 +81,7 @@ import { useSideBar } from '../../stores/sidebar';
 import { handleConfirmation, getUrlDomain, getCurrentDomain, isCurrentDomain } from '../../utils/helpers'
 import { BotIcon, CalendarIcon, ChevronLeftIcon, ContactIcon, HardDriveIcon, HomeIcon, LogOutIcon, MailIcon, MessageSquareIcon, UsersIcon, VideoIcon } from 'lucide-vue-next'
 import { ref } from 'vue';
+import { SSOServerLogoutUrl } from '@/env';
 const authStore = useAuthStore()
 const sideStore = useSideBar()
 
@@ -115,7 +116,7 @@ const logout = () => {
         title: 'Déconnexion',
         message: 'Souhaitez vous vous déconnecter ?',
         onConfirm() {
-
+            authStore.logout()
         }, onCancel() {
 
         },
