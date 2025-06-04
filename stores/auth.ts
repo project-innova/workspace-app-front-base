@@ -25,18 +25,12 @@ export const useAuthStore = defineStore('authStore', () => {
     const isLoged = computed(() => accessToken.value && accessToken.value.length > 0);
     //@ts-ignore
     const logout = async () => {
-        // HTTP.post(window.$modulesUrls.ssoServerLogoutUrl).then(() => {
-        //     accessTokenSaved.value = undefined;
-        //     user.value = undefined;
-        //     roles.value = undefined;
-        //     permissions.value = undefined;
-        //     // window.location.href = SSOServerLoginUrl;
-        // })
+
         accessTokenSaved.value = undefined;
         user.value = undefined;
         roles.value = undefined;
         permissions.value = undefined;
-        window.location.href = SSOServerLogoutUrl
+        window.location.href = SSOServerLogoutUrl;
     }
     const tokenIsExpire = computed(() => {
         const now = Date.now() / 1000;
