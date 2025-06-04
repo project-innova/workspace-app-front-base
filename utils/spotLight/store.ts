@@ -4,6 +4,7 @@ import { HTTP } from "../http";
 import { MainModuleUrl } from "@/env";
 export const useSpotLightStore = defineStore('spotLightStore', () => {
     const show = ref(false)
+    const searchIng = ref(false)
 
     const toggShow = () => {
         show.value = !show.value
@@ -40,6 +41,7 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
     }
 
     const execSearch = async (query: string) => {
+        searchIng.value = true;
         const queryString = new URLSearchParams();
         queryString.set('query', query);
         const rst = await HTTP.get(MainModuleUrl + '/api/search?' + queryString.toString())
@@ -51,6 +53,8 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
             results.value = vl;
         }
         pagination.value = rst.data.pagination;
+        searchIng.value = false;
+
     }
 
     watch(searchQuery, (val) => {
@@ -92,6 +96,8 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
     }
 
     const paginate = async () => {
+        searchIng.value = true;
+
         const queryString = new URLSearchParams();
         queryString.set('query', searchQuery.value);
         queryString.set('page', (pagination.value.page + 1).toString());
@@ -100,6 +106,8 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
         resultsItems.value = rst.data.items;
         results.value = groupBy(rst.data.items, 'type');
         pagination.value = rst.data.pagination;
+        searchIng.value = false;
+
     }
 
     return {
@@ -112,6 +120,7 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
         availableGroups,
         selectedIndex,
         resultsItems,
+        searchIng,
         search
     }
 

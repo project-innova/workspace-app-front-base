@@ -1,4 +1,5 @@
 
+import { SSOServerLogoutUrl } from "@/env";
 import type { AuthUser } from "../types";
 import { HTTP } from "../utils/http";
 import { defineStore } from "pinia";
@@ -24,13 +25,18 @@ export const useAuthStore = defineStore('authStore', () => {
     const isLoged = computed(() => accessToken.value && accessToken.value.length > 0);
     //@ts-ignore
     const logout = async () => {
-        HTTP.post(window.$modulesUrls.ssoServerLogoutUrl).then(() => {
-            accessTokenSaved.value = undefined;
-            user.value = undefined;
-            roles.value = undefined;
-            permissions.value = undefined;
-            // window.location.href = SSOServerLoginUrl;
-        })
+        // HTTP.post(window.$modulesUrls.ssoServerLogoutUrl).then(() => {
+        //     accessTokenSaved.value = undefined;
+        //     user.value = undefined;
+        //     roles.value = undefined;
+        //     permissions.value = undefined;
+        //     // window.location.href = SSOServerLoginUrl;
+        // })
+        accessTokenSaved.value = undefined;
+        user.value = undefined;
+        roles.value = undefined;
+        permissions.value = undefined;
+        window.location.href = SSOServerLogoutUrl
     }
     const tokenIsExpire = computed(() => {
         const now = Date.now() / 1000;
@@ -62,6 +68,7 @@ export const useAuthStore = defineStore('authStore', () => {
         setAccessToken,
         tokenIsExpire,
         authTokenInfos,
+        accessTokenSaved,
     }
 }, {
     persist: {

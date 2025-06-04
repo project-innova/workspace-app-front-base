@@ -2,7 +2,8 @@
     <div class="w-full">
         <button class="w-full btn-search" @click="spotLightStore.show = true">
             <div class="flex items-center gap-3">
-                <SearchIcon class="size-6 group-hover:text-orange-500" />
+                <SearchIcon v-show="!spotLightStore.searchIng" class="size-6 group-hover:text-orange-500" />
+                <RefreshCcwIcon v-show="spotLightStore.searchIng" class="size-6 group-hover:text-orange-500 spin" />
                 <span>Rechercher ... </span>
             </div>
             <span
@@ -14,12 +15,13 @@
     <HeadlessModal :show="spotLightStore.show" size="md" position="top" contentClass="!p-0" containerClass="!w-[500px]">
         <div class="sticky top-0 bg-white ">
             <div class="flex items-center justify-between w-full bg-secondary-100 rounded-lg p-2 h-12">
-                <div class="flex items-center">
+                <div class="flex items-center gap-2 w-full">
                     <span class="">
-                        <SearchIcon class="text-gray-400 size-6" />
+                        <SearchIcon v-show="!spotLightStore.searchIng" class="text-gray-400 size-6" />
+                        <RefreshCcwIcon v-show="spotLightStore.searchIng" class="text-gray-400 size-6 spin" />
                     </span>
                     <input type="serach" ref="searchFieldRef" id="global-search-field" placeholder="Rechercher ..."
-                        class="stoc border-none! p-0! outline-none! w-full h-full" v-model="spotLightStore.searchQuery">
+                        class="flex border-none! p-0! outline-none! w-full h-full" v-model="spotLightStore.searchQuery">
                 </div>
                 <span class="">
                     <XIcon class="text-gray-400 cursor-pointer size-6 hover:text-primary"
@@ -54,12 +56,13 @@
                                 <span class="text-sm text-gray-500" v-html="item.label"></span>
 
                                 <span v-if="index == 'file'" class="text-sm text-gray-400">
-                                    Créé {{ formatDate(item.metadata.created_at) }}, Type : {{ item.metadata.infos.type
+                                    Créé {{ dateHummanFormat(item.metadata.created_at) }}, Type : {{
+                                        item.metadata.infos.type
                                     }}, Taille :
                                     {{ formatFileSize(item.metadata.infos.size) }}
                                 </span>
                                 <span v-else-if="index == 'folder'" class="text-sm text-gray-400">
-                                    Créé {{ formatDate(item.metadata.created_at) }}, {{
+                                    Créé {{ dateHummanFormat(item.metadata.created_at) }}, {{
                                         item.metadata.infos.files }} Fichier{{ item.metadata.infos.files > 1 ? 's' : '' }},
                                     {{
                                         item.metadata.infos.sub_folders }} Sous-dossier{{ item.metadata.infos.sub_folders >
@@ -110,7 +113,7 @@
 import { onMounted, ref } from "vue";
 import HeadlessModal from "../../components/dialogs/HeadlessModal.vue";
 import { useSpotLightStore } from "./store";
-import { ArrowDown, ArrowDownLeft, ArrowUp, Calendar1Icon, CornerDownLeft, FileIcon, FilesIcon, FolderIcon, FoldersIcon, icons, InfoIcon, SearchIcon, UserIcon, Users2Icon, VideoIcon, XIcon } from "lucide-vue-next";
+import { ArrowDown, ArrowDownLeft, ArrowUp, Calendar1Icon, CornerDownLeft, FileIcon, FilesIcon, FolderIcon, FoldersIcon, icons, InfoIcon, RefreshCcwIcon, SearchIcon, UserIcon, Users2Icon, VideoIcon, XIcon } from "lucide-vue-next";
 import Divider from "primevue/divider";
 import { formatFileSize } from "../helpers";
 import { format, parse, isToday, isYesterday, formatDistance } from 'date-fns';
@@ -209,6 +212,10 @@ const handleSeletedItem = (selectedItem: any) => {
     }
 }
 
+const folderInfo = (item: any) => {
+    console.log('item', item.metadata);
+}
+
 const types: any = {
     meet: {
         name: 'Reunions',
@@ -237,8 +244,20 @@ const types: any = {
     },
 }
 
-const formatDate = (dateString: string) => {
-    const date = parse(dateString, 'yyyy-MM-dd HH:mm:ss', new Date());
+const dateHummanFormat = (dateString: string) => {
+
+    if (!dateString) return '';
+
+    const _date = new Date();
+    let date;
+    try {
+        date = parse(dateString, 'yyyy-MM-dd HH:mm:ss', _date);
+        if (isNaN(date.getTime())) throw new Error('Date invalide');
+    } catch (e) {
+        // Si le parse échoue, on tente de parser en ISO ou timestamp
+        date = new Date(dateString);
+        if (isNaN(date.getTime())) return '';
+    }
 
     if (isToday(date)) {
         return `Aujourd'hui à ${format(date, 'HH:mm', { locale: fr })}`;
