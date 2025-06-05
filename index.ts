@@ -1,5 +1,6 @@
-import 'flatpickr/dist/flatpickr.css';
+import './css/main.css'
 import './css/main.scss'
+import 'flatpickr/dist/flatpickr.css';
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
