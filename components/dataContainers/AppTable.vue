@@ -1,12 +1,12 @@
 <template>
-    <div class="bg-white border border-secondary-100 rouned-md app-card max-h-full overflow-y-auto p-0">
+    <div class="bg-white border border-secondary-100 rouned-md app-card max-h-full overflow-y-auto p-0!">
         <div v-if="$slots.header" class="p-3">
             <slot name="header"></slot>
         </div>
         <div class="w-full overflow-x-auto">
             <table class="w-full">
                 <thead>
-                    <tr class="">
+                    <tr class="bg-gray-100">
                         <th v-if="multiple" class="py-3 px-2 sticky top-0 z-3">
                             <input type="checkbox" :checked="selectedItems.length === dataCollection.length"
                                 @click="selectedAll" />

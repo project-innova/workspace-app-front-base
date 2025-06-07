@@ -61,9 +61,9 @@
 
             </div>
         </div>
-        <AppButton @click="logout" icon secondary :filled="false">
+        <PrimeBtn @click="logout" secondary class="p-0!">
             <LogOutIcon class="size-5" stroke-width="1.5" />
-        </AppButton>
+        </PrimeBtn>
     </div>
     <template v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))">
         <Transition name="side-bar-left">
