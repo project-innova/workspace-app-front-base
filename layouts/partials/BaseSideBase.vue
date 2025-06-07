@@ -1,57 +1,57 @@
 <template>
     <div class="flex bg-color flex-col items-center justify-between w-16 h-screen fixed left-0 z-[49] pb-3">
         <div class="mb-2">
-            <div class="overflow-hidden w-[50px] h-[50px] inline-flex items-center justify-center">
+            <div class="overflow-hidden size-[50px]! inline-flex items-center justify-center">
                 <img class="object-cover rounded-xl" :src="$url('/assets/logos/DGI-WORKSPACE-logo-short.png')"
                     alt="Short logo" />
             </div>
             <div class="flex flex-col items-center gap-3 h-full">
                 <button
                     v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))"
-                    @click="sideStore.toggleShow" class="aside-nav-btn">
+                    v-tooltip.right="'Fermer'" @click="sideStore.toggleShow" class="aside-nav-btn">
                     <ChevronLeftIcon class="size-6 transition-transform" :class="{ 'rotate-180': sideStore.show }"
                         stroke-width="1.5" />
                 </button>
-                <a :href="$modulesUrls.dashboard" class="aside-nav-btn"
+                <a :href="$modulesUrls.dashboard" class="aside-nav-btn" v-tooltip.right="'Tableau de bord'"
                     :class="{ 'active': isCurrentDomain($modulesUrls.dashboard ?? '') }">
                     <HomeIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.drive" class="aside-nav-btn"
+                <a :href="$modulesUrls.drive" class="aside-nav-btn" v-tooltip.right="'Drive'"
                     :class="{ 'active': isCurrentDomain($modulesUrls.drive ?? '') }">
                     <HardDriveIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.chat" class="aside-nav-btn"
-                    :class="{ 'active': isCurrentDomain($modulesUrls.chat ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.chat ?? '') }" v-tooltip.right="'Chat'">
                     <MessageSquareIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.meet" class="aside-nav-btn"
-                    :class="{ 'active': isCurrentDomain($modulesUrls.meet ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.meet ?? '') }" v-tooltip.right="'Réunion'">
                     <VideoIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.team" class="aside-nav-btn"
-                    :class="{ 'active': isCurrentDomain($modulesUrls.team ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.team ?? '') }" v-tooltip.right="'Equipe'">
                     <UsersIcon class="size-6" />
                 </a>
                 <a :href="$modulesUrls.contact" class="aside-nav-btn"
-                    :class="{ 'active': isCurrentDomain($modulesUrls.contact ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.contact ?? '') }" v-tooltip.right="'Contacts'">
                     <ContactIcon class="size-6" />
                 </a>
                 <a :href="$modulesUrls.ai" class="aside-nav-btn"
-                    :class="{ 'active': isCurrentDomain($modulesUrls.ai ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.ai ?? '') }" v-tooltip.right="'IA'">
                     <BotIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.mail" class="aside-nav-btn"
-                    :class="{ 'active': isCurrentDomain($modulesUrls.mail ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.mail ?? '') }" v-tooltip.right="'Mail'">
                     <MailIcon class="size-6" stroke-width="1.5" />
                 </a>
                 <a :href="$modulesUrls.calendar" class="aside-nav-btn"
-                    :class="{ 'active': isCurrentDomain($modulesUrls.calendar ?? '') }">
+                    :class="{ 'active': isCurrentDomain($modulesUrls.calendar ?? '') }" v-tooltip.right="'Calendrier'">
                     <CalendarIcon class="size-6" stroke-width="1.5" />
                 </a>
 
             </div>
         </div>
-        <AppButton @click="logout" icon secondary :filled="false">
+        <AppButton @click="logout" icon secondary :filled="false" v-tooltip.right="'Déconnexion'">
             <LogOutIcon class="size-5" stroke-width="1.5" />
         </AppButton>
     </div>

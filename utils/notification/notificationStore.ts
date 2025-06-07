@@ -12,6 +12,7 @@ interface Notification {
     link: string | null,
     item_id: string | null,
     type: string,
+    event?: string,
 }
 
 export const useNotificationStore = defineStore('notificationStore', () => {
@@ -42,10 +43,15 @@ export const useNotificationStore = defineStore('notificationStore', () => {
         }
         loading.value = false;
     }
-    const notifAction = async (rsp: boolean, url: string, item_id: string, notifId: string) => {
+
+    const notifAction = async (rsp: boolean, notification: Notification) => {
         try {
-            await HTTP.post(url, { id: item_id, response: rsp });
-            await markAsRead(notifId, rsp);
+            await HTTP.post(notification.url!, { id: notification.item_id, response: rsp });
+            await markAsRead(notification.id, rsp);
+            if (notification.event) {
+                const event = new CustomEvent(notification.event, { detail: { notification } });
+                window.dispatchEvent(event);
+            }
         } catch (error) {
             console.log("reject notif", error);
         }
