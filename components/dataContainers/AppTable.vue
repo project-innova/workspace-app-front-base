@@ -1,27 +1,45 @@
 <template>
-    <div class="bg-white border border-secondary-100 rouned-md app-card max-h-full overflow-y-auto p-0">
+    <div class="bg-white border border-secondary-100 rounded-md app-card max-h-full overflow-y-auto p-0">
         <div v-if="$slots.header" class="p-3">
             <slot name="header"></slot>
+        </div>
+        <div class="p-3 my-2">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                    <slot name="leading"></slot>
+                </div>
+                <div class="flex items-center gap-2">
+                    <slot name="actions"></slot>
+                    <PrimeMultiSelect v-if="columns.length > 3" v-model="activeColumns" :options="columns" optionLabel="label" optionValue="key"
+                        :max-selected-labels="3" selected-items-label="{0} Colonnes visibles" @change="toggleColumn" />
+                    <PrimeBtn v-if="canRefresh" class="size-10! aspect-square p-0!" @click="$emit('refresh')"
+                        severity="secondary" v-tooltip.top="'Rafraîchir'">
+                        <RefreshCcwIcon class="size-5" stroke-width="1.5" :class="{ 'animate-spin': loading }" />
+                    </PrimeBtn>
+                </div>
+            </div>
         </div>
         <div class="w-full overflow-x-auto">
             <table class="w-full">
                 <thead>
-                    <tr class="">
-                        <th v-if="multiple" class="py-3 px-2 sticky top-0 z-3">
-                            <input type="checkbox" :checked="selectedItems.length === dataCollection.length"
-                                @click="selectedAll" />
+                    <tr class="bg-gray-100 border-b border-gray-200">
+                        <th v-if="multiple" class="py-3 px-2 flex justify-start sticky top-0 z-3">
+                            <Checkbox :checked="selectedItems.length == dataCollection.length" @click="selectedAll"
+                                binary />
                         </th>
-                        <th v-for="column in columns" :key="column.key" class="py-3 px-2 sticky top-0 z-3">
-                            <span class="text-sm text-gray-600 font-extrabold flex text-nowrap" :class="{
-                                'justify-start': column.align === 'left',
-                                'justify-end': column.align === 'right',
-                                'justify-center': column.align === 'center',
-                            }">
-                                <slot :name="`head-${column.key}`">
-                                    <span>{{ column.label }}</span>
-                                </slot>
-                            </span>
-                        </th>
+                        <template v-for="column in columns" :key="column.key">
+                            <th v-show="activeColumns.includes(column.key)" class="py-3 px-2 sticky top-0 z-3">
+                                <span class="text-sm text-gray-600 font-extrabold flex text-nowrap" :class="{
+                                    'justify-start': column.align === 'left',
+                                    'justify-end': column.align === 'right',
+                                    'justify-center': column.align === 'center',
+                                }">
+                                    <slot :name="`head-${column.key}`">
+                                        <span>{{ column.label }}</span>
+                                    </slot>
+                                </span>
+                            </th>
+                        </template>
                     </tr>
                 </thead>
                 <tbody>
@@ -32,32 +50,38 @@
                             </td>
                         </tr>
                     </template>
-                    <template v-else v-for="(item, index) in dataCollection">
-                        <tr class="hover:bg-gray-100 rounded-md transition-all duration-300 select-none cursor-pointer"
-                            @click="$emit('selected', { item, index })" @dblclick="$emit('open', { item, index })">
-                            <td v-if="multiple" class="px-2">
-                                <!-- <input type="checkbox" :value="item[primaryKay]"
-                              :checked="selected.includes(item[primaryKay])"
-                              @change="emit('update:selected', selected)" /> -->
-                            </td>
-                            <td v-for="column in columns" :key="column.key" class="py-3 px-2">
-                                <span class="text-sm text-gray-800 flex" :class="{
-                                    'justify-start': column.align === 'left',
-                                    'justify-end': column.align === 'right',
-                                    'justify-center': column.align === 'center',
-                                }">
-                                    <slot :name="`cell-${column.key}`" :item="item" :column="column" :index="index">
-                                        {{ item[column.key] }}
-                                    </slot>
-                                </span>
-                            </td>
-                        </tr>
+                    <template v-else>
+                        <template v-for="(item, index) in dataCollection">
+                            <tr class="hover:bg-gray-100 rounded-md transition-all duration-300 select-none cursor-pointer"
+                                @click="$emit('selected', { item, index })" @dblclick="$emit('open', { item, index })">
+                                <td v-if="multiple" class="px-2">
+                                    <Checkbox :value="item[primaryKey]" v-model="selectedItems"
+                                        :input-id="`checkbox-${item[primaryKey]}`" />
+                                </td>
+                                <template v-for="column in columns" :key="column.key">
+                                    <td v-show="activeColumns.includes(column.key)" class="py-3 px-2">
+                                        <span class="text-sm text-gray-800 flex text-nowrap" :class="{
+                                            'justify-start': column.align === 'left',
+                                            'justify-end': column.align === 'right',
+                                            'justify-center': column.align === 'center',
+                                        }">
+                                            <slot :name="`cell-${column.key}`" :item="item" :column="column"
+                                                :index="index">
+                                                {{ item[column.key] }}
+                                            </slot>
+                                        </span>
+                                    </td>
+                                </template>
+
+                            </tr>
+                        </template>
                     </template>
+
                 </tbody>
                 <tfoot v-if="hasFooter">
                     <tr>
                         <td v-if="multiple">
-                            <input type="checkbox" />
+
                         </td>
                         <td v-for="column in columns" :key="column.key">
                             <slot :name="`foot-${column.key}`"></slot>
@@ -74,9 +98,11 @@
 
 </template>
 <script setup lang="ts">
-import type { TableColumn } from '../../types'
-import { ref } from 'vue'
-import TextPlacholder from '@/appBase/components/loaders/TextPlacholder.vue'
+import type { TableColumn } from '@/appBase/types'
+import { computed, ref, watch } from 'vue'
+import TextPlacholder from '../loaders/TextPlacholder.vue'
+import { RefreshCcwIcon } from 'lucide-vue-next';
+import Checkbox from 'primevue/checkbox';
 
 const props = withDefaults(
     defineProps<{
@@ -87,7 +113,8 @@ const props = withDefaults(
         primaryKey?: string
         selected?: string[] | number[]
         dataCollection: any[]
-        loading?: boolean
+        loading?: boolean,
+        canRefresh?: boolean,
     }>(),
     {
         paginator: false,
@@ -97,17 +124,30 @@ const props = withDefaults(
     },
 )
 
-const emit = defineEmits(['sort', 'update:selected', 'selected', 'open'])
+const keys = computed(() => {
+    return props.dataCollection.map((item) => item[props.primaryKey])
+})
+const emit = defineEmits(['sort', 'update:selected', 'selected', 'open', 'refresh', 'update:columns-visible'])
 
 const selectedItems = ref<any[]>(props.selected ?? [])
 
+const activeColumns = ref<string[]>(props.columns.filter((column) => column.visible != false).map((column) => column.key))
+
+const toggleColumn = () => {
+    emit('update:columns-visible', activeColumns.value)
+}
+
+watch(selectedItems, (newVal) => {
+    emit('update:selected', selectedItems.value)
+})
+
 const selectedAll = (e: Event) => {
+    console.log('keys', keys.value);
     const target = e.target as HTMLInputElement
     if (target.checked) {
-        selectedItems.value = props.dataCollection.map((item) => item[props.primaryKey])
-        emit('update:selected', selectedItems.value)
+        selectedItems.value = keys.value
         return
     }
-    emit('update:selected', [])
+    selectedItems.value = []
 }
 </script>
