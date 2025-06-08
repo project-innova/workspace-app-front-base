@@ -1,7 +1,7 @@
 interface DgiwsFrontPlugin {
     appUrl: string,
     modulesUrls: DgiwsModules
-    drawerPages?: string[] | '*'| '!*';
+    drawerPages?: string[] | '*' | '!*';
 
 }
 interface DgiwsModules {
@@ -58,6 +58,7 @@ interface TableColumn {
     width?: number;
     align?: 'left' | 'center' | 'right';
     sortable?: boolean;
+    visible?: boolean;
 }
 
 interface SelectOptionValueColor {
@@ -74,8 +75,8 @@ interface PaginatedCollection<T> {
         perpage: number,
         total_page: number,
         total_items: number,
-        from: number|null,
-        to: number|null,
+        from: number | null,
+        to: number | null,
         next_page: number | null,
         prev_page: number | null
     }

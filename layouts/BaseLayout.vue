@@ -28,15 +28,6 @@ const authStore = useAuthStore()
 const sideStore = useSideBar()
 
 onMounted(() => {
-    $socket.on('notify', (notification: any) => {
-        $useToast({
-            type: notification.type,
-            title: notification.title,
-            message: notification.message,
-            duration: 4000,
-        })
-        console.log('New notification', notification)
-    })
     authStore.loadUser()
 })
 </script>
