@@ -1,69 +1,59 @@
 <template>
     <div class="flex bg-color flex-col items-center justify-between w-16 h-screen fixed left-0 z-[49] pb-3">
         <div class="mb-2">
-            <div class="overflow-hidden w-[50px] h-[50px] inline-flex items-center justify-center">
+            <div class="overflow-hidden size-[50px]! inline-flex items-center justify-center">
                 <img class="object-cover rounded-xl" :src="$url('/assets/logos/DGI-WORKSPACE-logo-short.png')"
                     alt="Short logo" />
             </div>
             <div class="flex flex-col items-center gap-3 h-full">
                 <button
                     v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))"
-                    @click="sideStore.toggleShow"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200">
+                    v-tooltip.right="'Fermer'" @click="sideStore.toggleShow" class="aside-nav-btn">
                     <ChevronLeftIcon class="size-6 transition-transform" :class="{ 'rotate-180': sideStore.show }"
                         stroke-width="1.5" />
                 </button>
-                <a :href="$modulesUrls.dashboard"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.dashboard ?? '') }">
+                <a :href="$modulesUrls.dashboard" class="aside-nav-btn" v-tooltip.right="'Tableau de bord'"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.dashboard ?? '') }">
                     <HomeIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.drive"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.drive ?? '') }">
+                <a :href="$modulesUrls.drive" class="aside-nav-btn" v-tooltip.right="'Drive'"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.drive ?? '') }">
                     <HardDriveIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.chat"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.chat ?? '') }">
+                <a :href="$modulesUrls.chat" class="aside-nav-btn"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.chat ?? '') }" v-tooltip.right="'Chat'">
                     <MessageSquareIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.meet"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.meet ?? '') }">
+                <a :href="$modulesUrls.meet" class="aside-nav-btn"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.meet ?? '') }" v-tooltip.right="'Réunion'">
                     <VideoIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.team"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.team ?? '') }">
+                <a :href="$modulesUrls.team" class="aside-nav-btn"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.team ?? '') }" v-tooltip.right="'Equipe'">
                     <UsersIcon class="size-6" />
                 </a>
-                <a :href="$modulesUrls.contact"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.contact ?? '') }">
+                <a :href="$modulesUrls.contact" class="aside-nav-btn"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.contact ?? '') }" v-tooltip.right="'Contacts'">
                     <ContactIcon class="size-6" />
                 </a>
-                <a :href="$modulesUrls.ai"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.ai ?? '') }">
+                <a :href="$modulesUrls.ai" class="aside-nav-btn"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.ai ?? '') }" v-tooltip.right="'IA'">
                     <BotIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.mail"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.mail ?? '') }">
+                <a :href="$modulesUrls.mail" class="aside-nav-btn"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.mail ?? '') }" v-tooltip.right="'Mail'">
                     <MailIcon class="size-6" stroke-width="1.5" />
                 </a>
-                <a :href="$modulesUrls.calendar"
-                    class="app-icon-btn py-5 transition-all duration-300 ease-in-out hover:!bg-secondary-200"
-                    :class="{ 'active': getCurrentDomain() === getUrlDomain($modulesUrls.calendar ?? '') }">
+                <a :href="$modulesUrls.calendar" class="aside-nav-btn"
+                    :class="{ 'active': isCurrentDomain($modulesUrls.calendar ?? '') }" v-tooltip.right="'Calendrier'">
                     <CalendarIcon class="size-6" stroke-width="1.5" />
                 </a>
 
             </div>
         </div>
-        <PrimeBtn @click="logout" secondary class="p-0!">
+        <AppButton @click="logout" icon secondary :filled="false" v-tooltip.right="'Déconnexion'">
             <LogOutIcon class="size-5" stroke-width="1.5" />
-        </PrimeBtn>
+        </AppButton>
     </div>
     <template v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))">
         <Transition name="side-bar-left">
@@ -88,9 +78,10 @@ import ConfirmationModal from '../../components/dialogs/ConfirmationModal.vue'
 
 import { useAuthStore } from "../../stores/auth";
 import { useSideBar } from '../../stores/sidebar';
-import { handleConfirmation } from '../../utils/helpers'
+import { handleConfirmation, getUrlDomain, getCurrentDomain, isCurrentDomain } from '../../utils/helpers'
 import { BotIcon, CalendarIcon, ChevronLeftIcon, ContactIcon, HardDriveIcon, HomeIcon, LogOutIcon, MailIcon, MessageSquareIcon, UsersIcon, VideoIcon } from 'lucide-vue-next'
-import { ref } from 'vue'
+import { ref } from 'vue';
+import { SSOServerLogoutUrl } from '@/env';
 const authStore = useAuthStore()
 const sideStore = useSideBar()
 
@@ -102,13 +93,7 @@ const onLogoutResponse = (resp: boolean) => {
     }
 }
 
-const getCurrentDomain = () => (
-    getUrlDomain(document.location.href)
-)
 
-const getUrlDomain = (url: string) => (
-    url.match(/http[s]?:\/\/([^\/]+)/)?.[1] || ''
-)
 const confirmationModalFiedls = {
     title: 'Demande de confirmation',
     message: 'Etes vous sur de cette action',
@@ -131,7 +116,7 @@ const logout = () => {
         title: 'Déconnexion',
         message: 'Souhaitez vous vous déconnecter ?',
         onConfirm() {
-
+            authStore.logout()
         }, onCancel() {
 
         },

@@ -16,18 +16,7 @@
 }
 
 
-.bg-color {
-    .app-icon-btn {
-        &:hover {
-            background-color: var(--bg-color);
-        }
-
-        &.active {
-            background-color: var(--color-primary);
-            color: var(--color-white);
-        }
-    }
-}
+.bg-color {}
 
 .f-drag-over {
     outline: 4px dashed var(--color-primary);

@@ -4,6 +4,7 @@ import { HTTP } from "../http";
 import { MainModuleUrl } from "@/env";
 export const useSpotLightStore = defineStore('spotLightStore', () => {
     const show = ref(false)
+    const searchIng = ref(false)
 
     const toggShow = () => {
         show.value = !show.value
@@ -20,6 +21,7 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
         prev_page: null
     })
     const searchQuery = ref<string>('')
+    const resultsItems = ref<any[]>([])
     const results = ref<Record<string, any>>({})
 
     // const lastSearch = ref([])
@@ -39,9 +41,11 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
     }
 
     const execSearch = async (query: string) => {
+        searchIng.value = true;
         const queryString = new URLSearchParams();
         queryString.set('query', query);
         const rst = await HTTP.get(MainModuleUrl + '/api/search?' + queryString.toString())
+        resultsItems.value = rst.data.items;
         if (rst.data.items.length == 0) {
             results.value = {}
         } else {
@@ -49,11 +53,17 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
             results.value = vl;
         }
         pagination.value = rst.data.pagination;
+        searchIng.value = false;
+
     }
 
     watch(searchQuery, (val) => {
         search(val)
     })
+
+    const selectedIndex = ref<number | null>(null)
+    const navigationItem = ref('')
+
 
     // const addSearchHistory = (query: string) => {
 
@@ -65,7 +75,7 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
     // }
     function groupBy(array: any[], key: string): any[] {
         // On utilise la méthode 'reduce' pour itérer sur le tableau et construire l'objet groupé.
-        return array.reduce((accumulator, currentItem): any[] => {
+        return array.reduce((accumulator, currentItem, index): any[] => {
             // On récupère la valeur de la clé pour l'élément courant.
             // Par exemple, si key est 'category' et currentItem est { name: 'Pomme', category: 'Fruit' },
             // groupKey sera 'Fruit'.
@@ -78,7 +88,7 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
             }
 
             // On ajoute l'élément courant au tableau correspondant à sa clé de groupe.
-            accumulator[groupKey].push(currentItem);
+            accumulator[groupKey].push({ ...currentItem, index });
 
             // On retourne l'accumulateur pour le prochain tour de boucle.
             return accumulator;
@@ -86,13 +96,18 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
     }
 
     const paginate = async () => {
+        searchIng.value = true;
+
         const queryString = new URLSearchParams();
         queryString.set('query', searchQuery.value);
         queryString.set('page', (pagination.value.page + 1).toString());
         // queryString.set('types[',query);
         const rst = await HTTP.get(MainModuleUrl + '/api/search?' + queryString.toString)
+        resultsItems.value = rst.data.items;
         results.value = groupBy(rst.data.items, 'type');
         pagination.value = rst.data.pagination;
+        searchIng.value = false;
+
     }
 
     return {
@@ -103,6 +118,9 @@ export const useSpotLightStore = defineStore('spotLightStore', () => {
         searchQuery,
         paginate,
         availableGroups,
+        selectedIndex,
+        resultsItems,
+        searchIng,
         search
     }
 
