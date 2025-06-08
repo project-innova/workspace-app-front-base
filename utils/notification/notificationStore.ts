@@ -43,7 +43,14 @@ export const useNotificationStore = defineStore('notificationStore', () => {
         }
         loading.value = false;
     }
-
+    const readAll = async () => {
+        try {
+            // await HTTP.post(window.$modulesUrls.main + '/api/notifications/read-all');
+            loadNotifications();
+        } catch (error) {
+            console.log("reject notif", error);
+        }
+    }
     const notifAction = async (rsp: boolean, notification: Notification) => {
         try {
             await HTTP.post(notification.url!, { id: notification.item_id, response: rsp });
@@ -79,6 +86,7 @@ export const useNotificationStore = defineStore('notificationStore', () => {
         moveNotifToRead,
         notifAction,
         markAsRead,
+        readAll,
     }
 
 })

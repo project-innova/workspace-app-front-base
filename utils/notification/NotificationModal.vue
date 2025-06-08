@@ -8,7 +8,6 @@ import {
 } from "lucide-vue-next";
 import { onMounted } from "vue";
 import { ref } from "vue";
-import Menu from "../../components/dialogs/Menu.vue";
 import { useNotificationStore } from "./notificationStore";
 import Popover from "primevue/popover";
 
@@ -17,11 +16,7 @@ const notificationStore = useNotificationStore();
 const notificationsMenuRef = ref<any>();
 
 const toogleMenu = (event: MouseEvent) => {
-    // if (notificationStore.unreadNotifications.length > 0 || notificationStore.readNotifications.length > 0) {
-    //     notificationsMenuRef.value.show(event);
-    // }
     notificationsMenuRef.value.show(event);
-
 };
 
 const openUrl = (notif: any) => {
@@ -32,17 +27,6 @@ const openUrl = (notif: any) => {
 onMounted(async () => {
     notificationStore.loadNotifications();
     $socket.on('notification', async (notif: any) => {
-        // try {
-        //     const audio = document.getElementById(
-        //         "notification-sound"
-        //     ) as HTMLAudioElement;
-        //     audio.src = urlHelper.getBaseUrl('/assets/sounds/notif-3.wav');
-        //     audio.load();
-        //     audio.volume = 1;
-        //     audio.play();
-        // } catch (error) {
-        //     console.warn("Erreur lors de la lecture du son:", error);
-        // }
         notificationStore.unreadNotifications.unshift(notif.data);
         $useToast(
             {
@@ -76,10 +60,10 @@ onMounted(async () => {
                     <span class="text-xl font-bold text-gray-600">Centre de notifications</span>
                 </div>
                 <div class="flex gap-2">
-                    <AppButton class="icon" v-tooltip.bottom="'Supprimer tout'">
+                    <AppButton class="icon" v-tooltip.bottom="'Supprimer tout'" @click="notificationStore.readAll">
                         <TrashIcon class="size-4" />
                     </AppButton>
-                    <AppButton class="icon" v-tooltip.bottom="'Recharger la liste'">
+                    <AppButton class="icon" v-tooltip.bottom="'Recharger la liste'" @click="notificationStore.loadNotifications">
                         <RefreshCcwIcon class="size-4" />
                     </AppButton>
                 </div>
@@ -91,7 +75,7 @@ onMounted(async () => {
                     <BellIcon class="size-6 text-primary" />
 
                     <button class=" absolute right-3 top-3" @click="notificationStore.markAsRead(notification.id)"
-                        v-if="!notification.url">
+                        v-if="notification.type!='ping' && !notification.url">
                         <XIcon class="size-4 text-gray-400" />
                     </button>
                     <span class=" w-full">
@@ -115,7 +99,6 @@ onMounted(async () => {
                                 <span>Ouvrir</span>
                             </button>
                         </div>
-
                     </span>
                 </div>
                 <span v-if="notificationStore.readNotifications.length > 0"
