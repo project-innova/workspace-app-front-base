@@ -30,6 +30,7 @@ jobs:
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd ${{ secrets.MODULE_PATH }}/drive
             cd resources/js/appBase
+            git checkout preprod
             git pull origin preprod
             cd ../../../
             pwd
@@ -45,6 +46,7 @@ jobs:
             cd ${{ secrets.MODULE_PATH }}/meet
             cd ${{ secrets.MODULE_PATH }}/meet
             cd resources/js/appBase
+            git checkout preprod
             git pull origin preprod
             cd ../../../
             pwd
@@ -59,6 +61,7 @@ jobs:
           ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'EOF'
             cd ${{ secrets.MODULE_PATH }}/team
             cd resources/js/appBase
+            git checkout preprod
             git pull origin preprod
             cd ../../../
             pwd
