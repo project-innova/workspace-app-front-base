@@ -6,7 +6,7 @@
             :class="[inputContainerClass, { 'py-2 gap-2 px-2': size === 'sm', 'py-3 px-3': size == 'md', 'py-4 px-4': size == 'lg' }]">
             <template v-if="type == 'textarea'">
                 <textarea ref="field" :name="name" :id="id" :placeholder="placeholder" v-model="model"
-                    class="focus:outline-none w-full outline-0 ring-0 bg-transparent h-full" :readonly="readonly"
+                    class="focus:outline-none w-full outline-0 ring-0 bg-transparent h-full resize-none" :readonly="readonly"
                     :rows="row"></textarea>
             </template>
             <template v-else>
