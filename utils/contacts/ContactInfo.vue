@@ -1,5 +1,5 @@
 <template>
-    <div v-if="contactInfoStore.show" class="w-[300px] h-[calc(100vh-90px)] bg-white border rounded-lg p-3">
+    <div v-if="contactInfoStore.show" class="w-[380px] h-[calc(100vh-90px)] bg-white border border-gray-100! rounded-lg p-3">
         <div class="flex flex-col items-center gap-3 relative">
             <button class=" absolute right-0 top-0" @click="contactInfoStore.closeSidebar()">
                 <XIcon class="size-4" />
@@ -40,7 +40,7 @@
             </div>
         </div>
         <div class="h-[calc(100%-220px)] overflow-y-auto mt-5 hiddle-scroll">
-            <div class="rounded-lg bg-gray-100 border p-2">
+            <div class="rounded-lg bg-gray-100 border border-gray-100! p-2">
                 <div class="flex justify-between">
                     <div class="flex gap-2">
                         <File class="size-5" />
@@ -65,7 +65,7 @@
 
                 </div>
             </div>
-            <div class="rounded-lg bg-gray-100 border p-2 mt-3">
+            <div class="rounded-lg bg-gray-100 border border-gray-100! p-2 mt-3">
                 <div class="flex justify-between">
                     <div class="flex gap-2">
                         <CalendarIcon class="size-5" />
@@ -85,7 +85,7 @@
                     <button class="mt-4 text-center w-full text-sm hover:text-primary">Voir plus</button>
                 </div>
             </div>
-            <div v-if="contactInfoStore.contact?.user_id" class="rounded-lg bg-gray-100 border p-2 mt-3">
+            <div v-if="contactInfoStore.contact?.user_id" class="rounded-lg bg-gray-100 border border-gray-100! p-2 mt-3">
                 <div class="flex justify-between">
                     <div class="flex gap-2">
                         <UsersIcon class="size-5" />
