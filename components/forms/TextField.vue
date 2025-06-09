@@ -1,6 +1,6 @@
 <template>
     <div class="flex flex-col " @keydown.stop="">
-        <label v-if="label" :for="id" class="block text-sm font-semibold"> {{ label
+        <label v-if="label" :for="id" class="block text-sm"> {{ label
             }} <span class="text-red-500 ml-1" v-if="required">*</span></label>
         <div class="flex rounded-lg outline-0 ring-primary bg-secondary-100 items-center gap-3"
             :class="[inputContainerClass, { 'py-2 gap-2 px-2': size === 'sm', 'py-3 px-3': size == 'md', 'py-4 px-4': size == 'lg' }]">

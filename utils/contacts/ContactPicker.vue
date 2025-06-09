@@ -14,25 +14,20 @@
         </template>
         <div class="">
             <div class="mb-3">
-                <DropdownSelect label="Type de contacts"
+                <label for="">Type de contacts</label>
+                <PrimeSelect label="Type de contacts" class="bg-secondary-100! w-full"
                     :options="[{ label: 'Collaborateurs', value: 'collaborators' }, { label: 'Contacts', value: 'contacts' }]"
-                    v-model="currentType" @update:model-value="() => contactStore.load(currentType)" />
+                    v-model="currentType" @update:model-value="() => contactStore.load(currentType)" option-label="label" option-value="value" />
             </div>
             <div class="mb-3">
-                <DropdownSelect label="Sélectionner des contacts"
+                <label for="">Sélectionner des contacts</label>
+                <PrimeMultiSelect label="Sélectionner des contacts" class="bg-secondary-100! w-full"
                     :options="contactStore.contacts.items.map((ct) => ({ label: ct.full_name, value: ct.email }))"
-                    v-model="contactStore.selected" multiple :maxShow="1" filter />
+                    v-model="contactStore.selected"  :max-selected-labels="2"  selected-items-label="{0} contacts sélectionnés" filter option-label="label" option-value="value" />
             </div>
-            <table class="w-full">
-                <tbody>
-                    <tr v-for="(contact, i) in contacts.items.filter(ct => contactStore.selected.includes(ct.email))">
-                        <td>{{ contact.name }}</td>
-                        <td>{{ contact.email }}</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="flex w-full">
-                <AppButton @click="validate" class="w-full mt-10 filled">Valider</AppButton>
+            
+            <div class="flex w-full mt-5">
+                <PrimeBtn @click="validate" class="w-full" label="Valider" />
             </div>
         </div>
     </HeadlessModal>
@@ -64,7 +59,7 @@ const closeModal = () => {
     show.value = false;
     contactStore.selected = [];
 };
-const currentType = ref(props.type);
+const currentType = ref(props.type || 'collaborators');
 const validate = () => {
     console.log('contactStore.selected', contactStore.selected);
     emit('selected', contactStore.selected);
