@@ -8,7 +8,7 @@
             <div class="flex flex-col items-center gap-3 h-full">
                 <button
                     v-if="$drawerPages != '!*' && ($drawerPages == '*' || $drawerPages.includes($route.name as string))"
-                    v-tooltip.right="'Fermer'" @click="sideStore.toggleShow" class="aside-nav-btn">
+                     @click="sideStore.toggleShow" class="aside-nav-btn">
                     <ChevronLeftIcon class="size-6 transition-transform" :class="{ 'rotate-180': sideStore.show }"
                         stroke-width="1.5" />
                 </button>
