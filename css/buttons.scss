@@ -1,3 +1,12 @@
+.btn-light {
+    background-color: var(--btn-primary-light-background) !important;
+    color: var(--btn-primary-light-text-color) !important;
+    border: 0px !important;
+    &:hover {
+        background-color: var(--btn-primary-light-background-hover) !important;
+    }
+}
+
 .app-icon-btn {
     @apply p-2 size-10 flex justify-center items-center rounded-lg cursor-pointer transition duration-300 ease-in-out;
 

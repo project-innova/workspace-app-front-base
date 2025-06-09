@@ -35,6 +35,9 @@ body {
     // --p-navigation-item-focus-background: var(--color-primary)
     --p-content-border-radius: var(--p-select-overlay-border-radius);
     --p-navigation-item-border-radius: var(--p-list-option-border-radius);
+    --btn-primary-light-background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+    --btn-primary-light-background-hover: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    --btn-primary-light-text-color: var(--color-primary);
 }
 
 button {
