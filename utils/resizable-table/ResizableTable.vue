@@ -9,9 +9,24 @@
         <table ref="tableHead" class="table-fixed w-full sticky top-0 bg-white z-10">
             <thead>
                 <tr>
+                    <!-- Colonne de sélection multiple dans l'en-tête -->
+                    <th v-if="multiple" 
+                        class="sticky top-0 z-3 border-b border-secondary-100! w-12"
+                        :class="thClass"
+                        data-col-type="checkbox">
+                        <div class="relative py-2 px-2 flex justify-center">
+                            <Checkbox 
+                                v-model="selectAll" 
+                                :indeterminate="isIndeterminate"
+                                @update:model-value="handleSelectAll"
+                                @click.stop
+                                binary />
+                        </div>
+                    </th>
+                    
                     <th v-for="(column, col_index) in columns" 
                         :key="column.key"
-                        class="sticky top-0 z-3 border-b border-secondary-100! bg-white" 
+                        class="sticky top-0 z-3 border-b border-secondary-100! " 
                         :data-col-id="column.key"
                         :class="thClass"
                         :style="getColumnStyle(column)">
@@ -24,9 +39,10 @@
                             </span>
                             <!-- Resizer uniquement pour les colonnes qui ne sont pas la dernière -->
                             <span v-if="isColumnResizable(col_index)"
-                                class="h-full opacity-0 group-hover:opacity-100 right-0 top-0 border-l border-secondary-100! absolute cursor-ew-resize select-none"
+                                class="h-full opacity-0 group-hover:opacity-100 right-0 top-0 w-0.5 bg-secondary-100 border-secondary-100! absolute cursor-ew-resize select-none"
                                 :col-resizer="col_index"
-                                :data-col-id="column.key">
+                                :data-col-id="column.key"
+                                @mousedown.stop>
                             </span>
                         </div>
                     </th>
@@ -53,8 +69,16 @@
                         @dragend="handleDragEnd($event)">
                         
                         <!-- Colonne de sélection multiple -->
-                        <td v-if="multiple" class="px-2 pointer-events-none">
-                            <!-- Checkbox pour sélection multiple - commenté pour l'instant -->
+                        <td v-if="multiple" 
+                            class="px-2 w-12" 
+                            data-col-type="checkbox">
+                            <div class="flex justify-center">
+                                <Checkbox 
+                                    @click.stop
+                                    :model-value="isItemSelected(item)"
+                                    @update:model-value="handleItemSelection(item, $event)"
+                                    binary />
+                            </div>
                         </td>
                         
                         <!-- Cellules de données -->
@@ -101,7 +125,8 @@
 <script setup lang="ts">
 import type { TableColumn } from '@/appBase/types'
 import TextPlacholder from '@/appBase/components/loaders/TextPlacholder.vue'
-import { onMounted, ref, computed } from 'vue'
+import Checkbox from 'primevue/checkbox'
+import { onMounted, ref, computed, watch } from 'vue'
 import { useResizableTableStore } from './store'
 
 // Types
@@ -150,9 +175,18 @@ const emit = defineEmits([
 const selectedItems = ref<any[]>(props.selected ?? [])
 const tableHead = ref<HTMLTableElement>()
 const tableContainer = ref<HTMLDivElement>()
+const selectAll = ref(false)
 
 // Computed
 const isLastColumn = computed(() => (index: number) => index === props.columns.length - 1)
+
+const isIndeterminate = computed(() => {
+    if (!props.multiple) return false
+    const selectedCount = selectedItems.value.length
+    const totalCount = props.dataCollection.length
+    return selectedCount > 0 && selectedCount < totalCount
+})
+
 
 // Méthodes utilitaires
 const getColumnStyle = (column: TableColumn) => {
@@ -183,6 +217,49 @@ const shouldShowItem = (item: any, index: number) => {
 const isColumnResizable = (colIndex: number) => {
     // La dernière colonne n'est pas redimensionnable
     return colIndex + 1 !== props.columns.length
+}
+
+const getActualColumnIndex = (colIndex: number) => {
+    // Ajuster l'index si la colonne de sélection multiple est présente
+    return props.multiple ? colIndex + 1 : colIndex
+}
+
+const updateSelectAllState = () => {
+    if (!props.multiple) return
+    const totalCount = props.dataCollection.length
+    const selectedCount = selectedItems.value.length
+    selectAll.value = totalCount > 0 && selectedCount === totalCount
+}
+
+const isItemSelected = (item: any) => {
+    return selectedItems.value.includes(item[props.primaryKey])
+}
+
+const handleItemSelection = (item: any, checked: boolean) => {
+    const itemId = item[props.primaryKey]
+    
+    if (checked) {
+        if (!selectedItems.value.includes(itemId)) {
+            selectedItems.value.push(itemId)
+        }
+    } else {
+        const index = selectedItems.value.indexOf(itemId)
+        if (index > -1) {
+            selectedItems.value.splice(index, 1)
+        }
+    }
+    
+    emit('update:selected', selectedItems.value)
+}
+
+const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+        selectedItems.value = props.dataCollection.map(item => item[props.primaryKey])
+    } else {
+        selectedItems.value = []
+    }
+    
+    emit('update:selected', selectedItems.value)
 }
 
 // Gestionnaires d'événements
@@ -250,13 +327,19 @@ const handleResizerMouseDown = (event: MouseEvent) => {
     
     if (!tableHead.value || !colId) return
 
-    const thElements = tableHead.value.querySelectorAll('th')
+    // Exclure les colonnes de type checkbox des calculs de redimensionnement
+    const thElements = tableHead.value.querySelectorAll('th:not([data-col-type="checkbox"])')
     const targetCol = thElements[colIndex] as HTMLElement
     const nextCol = targetCol.nextElementSibling as HTMLElement
     const prevCol = targetCol.previousElementSibling as HTMLElement
-    const relativeCol = nextCol ?? prevCol
     
-    if (!relativeCol) return
+    // Éviter de prendre la colonne checkbox comme colonne relative
+    let relativeCol = nextCol
+    if (!relativeCol || relativeCol.getAttribute('data-col-type') === 'checkbox') {
+        relativeCol = prevCol
+    }
+    
+    if (!relativeCol || relativeCol.getAttribute('data-col-type') === 'checkbox') return
 
     const relativeColId = relativeCol.getAttribute('data-col-id')
     
@@ -307,6 +390,18 @@ const handleResizerMouseDown = (event: MouseEvent) => {
     document.addEventListener('mousemove', handleMouseMove)
     document.addEventListener('mouseup', handleMouseUp)
 }
+// Watchers
+watch(() => props.selected, (newSelected) => {
+    if (newSelected) {
+        selectedItems.value = [...newSelected]
+        updateSelectAllState()
+    }
+}, { immediate: true })
+
+watch(selectedItems, () => {
+    updateSelectAllState()
+}, { deep: true })
+
 
 // Lifecycle
 onMounted(() => {
