@@ -104,7 +104,13 @@
                 <!-- Lignes de chargement -->
                 <template v-if="loading">
                     <tr v-for="i in 10" :key="`loading-${i}`">
-                        <td v-for="column in columns" 
+                        <td 
+                            class="py-1 px-2"
+                            style="width: 30px;">
+                            <TextPlacholder width="100%" />
+                        </td>
+                    
+                    <td v-for="column in columns" 
                             :key="column.key" 
                             :data-col-id="column.key" 
                             class="py-1 px-2"
