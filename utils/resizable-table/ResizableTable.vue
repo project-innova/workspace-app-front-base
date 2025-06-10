@@ -1,8 +1,7 @@
 <template>
-    <PrimeCard class="border border-secondary-100! shadow-none! max-h-full overflow-y-auto scrollbar-hide"
+    <div class="bg-white border rounded-lg border-secondary-100! shadow-none! max-h-full overflow-y-auto scrollbar-hide"
         ref="tableContainer">
-        <template #content>
-            <div class="">
+        <div class="">
                 <div v-if="$slots.header" class="mb-5">
                     <slot name="header"></slot>
                 </div>
@@ -76,8 +75,7 @@
             <div v-if="$slots.footer" class="mt-2">
                 <slot name="footer"></slot>
             </div>
-        </template>
-    </PrimeCard>
+    </div>
 
 </template>
 <script setup lang="ts">
@@ -228,6 +226,8 @@ onMounted(() => {
             document.addEventListener('mouseup', onMouseUp);
         });
     });
+    if (tableContainer.value) {
+        console.log('tableContainer.value', tableContainer.value)
     tableContainer.value.addEventListener('scroll', (e: Event) => {
         const target = e.target as HTMLElement;
         const scrollTop = target.scrollTop;
@@ -236,8 +236,7 @@ onMounted(() => {
         if (scrollTop + clientHeight >= scrollHeight - 1) {
             emit('scollBottom', { event: e, target });
         }
-
-    });
-
+        });
+    }
 })
 </script>

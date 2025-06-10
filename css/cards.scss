@@ -1,27 +1,8 @@
 .app-card {
-    @apply bg-white rounded-lg border p-3;
+    @apply bg-white rounded-lg border border-secondary-100 p-3;
     border-color: var(--color-secondary-100)
 }
 
-.file-explorer-item {
-    @apply gap-3 px-3 py-2 rounded-lg cursor-pointer select-none transition-all duration-300;
-
-    &:hover {
-        background-color: var(--bg-color);
-    }
-
-    &.f-list-item {
-        @apply flex items-center gap-3;
-    }
-
-    &.f-grid-item {
-        // @apply ;
-    }
-
-    &.f-selected {
-        background-color: #ececec;
-    }
-}
 
 .f-shortcut-button {
     @apply flex items-center text-sm font-semibold gap-2 py-2 rounded-lg;
