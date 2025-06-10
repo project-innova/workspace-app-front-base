@@ -7,7 +7,7 @@
         
         <!-- En-tête du tableau -->
         <table ref="tableHead" class="table-fixed w-full sticky top-0 bg-white z-10">
-            <thead>
+            <thead class=" w-full sticky top-0">
                 <tr>
                     <!-- Colonne de sélection multiple dans l'en-tête -->
                     <th v-if="multiple" 
@@ -38,7 +38,7 @@
                                 </slot>
                             </span>
                             <!-- Resizer uniquement pour les colonnes qui ne sont pas la dernière -->
-                            <span v-if="isColumnResizable(col_index)"
+                            <span v-if="isColumnResizable(col_index)" 
                                 class="h-full opacity-0 group-hover:opacity-100 right-0 top-0 w-0.5 bg-secondary-100 border-secondary-100! absolute cursor-ew-resize select-none"
                                 :col-resizer="col_index"
                                 :data-col-id="column.key"
@@ -216,7 +216,7 @@ const shouldShowItem = (item: any, index: number) => {
 
 const isColumnResizable = (colIndex: number) => {
     // La dernière colonne n'est pas redimensionnable
-    return colIndex + 1 !== props.columns.length
+    return colIndex + 1 !== props.columns.length && colIndex + 2 !== props.columns.length
 }
 
 const getActualColumnIndex = (colIndex: number) => {
