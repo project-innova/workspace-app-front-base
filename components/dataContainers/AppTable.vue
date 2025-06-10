@@ -4,16 +4,16 @@
             <slot name="header"></slot>
         </div>
         <div class="p-3 mb-2">
-            <div class="flex justify-between items-center">
+            <div class="grid grid-cols-2">
                 <div class="flex items-center gap-2">
                     <slot name="leading"></slot>
                 </div>
                 <div class="flex items-center justify-end gap-2">
                     <slot v-if="$slots.actions" name="actions"></slot>
                     <PrimeMultiSelect v-if="columns.length > 3" v-model="activeColumns" :options="columns" optionLabel="label" optionValue="key"
-                        :max-selected-labels="3" selected-items-label="{0} Colonnes visibles" @change="toggleColumn" class="border-secondary-200!" />
-                    <PrimeBtn v-if="canRefresh" class="size-10! aspect-square! p-0! flex-center" @click="$emit('refresh')"
-                        severity="secondary" v-tooltip.top="'Rafraîchir'">
+                        :max-selected-labels="3" selected-items-label="{0} Colonnes visibles" @change="toggleColumn" class="border-gray-200! h-10! w-50!" />
+                    <PrimeBtn v-if="canRefresh" class="size-10 p-0!" severity="secondary" outlined @click="$emit('refresh')"
+                      v-tooltip.top="'Rafraîchir'">
                         <RefreshCcwIcon class="size-5" stroke-width="1.5" :class="{ 'animate-spin': loading }" />
                     </PrimeBtn>
                 </div>

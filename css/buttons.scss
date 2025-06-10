@@ -1,3 +1,12 @@
+.btn-light {
+    background-color: var(--btn-primary-light-background) !important;
+    color: var(--btn-primary-light-text-color) !important;
+    border: 0px !important;
+    &:hover {
+        background-color: var(--btn-primary-light-background-hover) !important;
+    }
+}
+
 .app-icon-btn {
     @apply p-2 size-10 flex justify-center items-center rounded-lg cursor-pointer transition duration-300 ease-in-out;
 
@@ -44,9 +53,6 @@
     @apply outline-1 outline-primary h-12 rounded-lg bg-gray-100 flex gap-2 items-center w-full p-3 focus:ring-primary;
 }
 
-.file-explorer-item {
-    @apply transition-all duration-300 ease-in-out bg-white border;
-}
 
 .prime-btn-v1 {
     @apply p-0 bg-primary/10 hover:bg-primary hover:text-white;
